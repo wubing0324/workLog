@@ -8,15 +8,15 @@
 export default {
   name: 'App',
   mounted () {
-    // var HTML = document.getElementsByTagName('html')[0]
-    // var initScreen = () => {
-    //   var fontSize = document.documentElement.clientWidth / 750 * 625
-    //   HTML.style.fontSize = fontSize + '%'
-    // }
-    // setTimeout(() => {
-    //   initScreen()
-    //   window.addEventListener('resize', function (e) { initScreen(e) }, false)
-    // }, 100)
+    var HTML = document.getElementsByTagName('html')[0]
+    var initScreen = () => {
+      var fontSize = document.documentElement.clientWidth / 375 * 625
+      HTML.style.fontSize = fontSize + '%'
+    }
+    setTimeout(() => {
+      initScreen()
+      window.addEventListener('resize', function (e) { initScreen(e) }, false)
+    }, 100)
   }
 }
 </script>

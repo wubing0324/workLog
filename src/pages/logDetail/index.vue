@@ -102,14 +102,14 @@ export default {
 <style lang="less">
 .logDetail{
   .dataBox{
-    width: 343px;
+    width: 3.43rem;
     height: calc(~'100vh - 130px');
     margin: 17px auto 0;
     overflow: auto;
     li{
       box-sizing: border-box;
-      width: 343px;
-      height: 98px;
+      width: 3.43rem;
+      height: .98rem;
       background: #F2F3F5;
       border-radius: 3px;
       padding: 0 16px;
