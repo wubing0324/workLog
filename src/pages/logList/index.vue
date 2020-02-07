@@ -43,6 +43,9 @@ export default {
     }
   },
   mounted () {
+    window.C3.setTitle({
+      title: '工时日志'
+    })
     this.$refs.calender.scrollIntoView()
   }
 }

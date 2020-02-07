@@ -3,6 +3,18 @@
     <van-button type="default" @click="changeDay('prev')">前一天</van-button>
     <van-button type="default" @click="goLogList">{{ formatDate }}</van-button>
     <van-button type="default" @click="changeDay('next')">后一天</van-button>
+    <van-loading v-show="loading" size="24px">加载中...</van-loading>
+    <div class="imgBox" v-show="logData.length === 0 && !loading">
+      <img src="../../assets/not-found.png">
+      <p>还没有记录日志</p>
+    </div>
+    <ul class="dataBox">
+      <li v-for="(item, index) in logData" :key="index" @click="goLogEdit(item)">
+        <p><span>工作时间：</span><span>{{ item.hour }}</span><van-button type="default">修改</van-button></p>
+        <p><span>工作内容：</span> <span>{{ item.content }}</span></p>
+      </li>
+    </ul>
+    <van-button class="btn" type="info" block @click="logCreate">新建日志</van-button>
   </div>
 </template>
 
@@ -23,7 +35,34 @@ export default {
         4: '周四',
         5: '周五',
         6: '周六'
-      }
+      },
+      logData: [
+        {
+          hour: '3小时',
+          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
+        },
+        {
+          hour: '3小时',
+          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
+        },
+        {
+          hour: '3小时',
+          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
+        },
+        {
+          hour: '3小时',
+          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
+        },
+        {
+          hour: '3小时',
+          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
+        },
+        {
+          hour: '3小时',
+          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
+        }
+      ],
+      loading: true
     }
   },
   computed: {
@@ -31,22 +70,82 @@ export default {
       return `${this.date.format('YYYY年MM月DD')} ${this.week[this.date.format('d')]}`
     }
   },
+  created () {
+    this.getLogData()
+  },
   methods: {
     changeDay (type) {
       if (type === 'prev') {
         this.date = day(this.date).subtract(1, 'day')
-        console.log(this.date)
       } else {
         this.date = day(this.date).add(1, 'day')
       }
     },
     goLogList () {
-      this.$router.push({ name: 'logList', params: { defaultDate: this.date } })
+      this.$router.push({ name: 'logList', params: { defaultDate: new Date(this.date) } })
+    },
+    goLogEdit () {
+      this.$router.push({ name: 'logEdit', params: { defaultDate: this.date } })
+    },
+    logCreate () {
+      this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
+    },
+    getLogData () {
+      setTimeout(() => {
+        this.loading = false
+      }, 3000)
     }
   }
 }
 </script>
 
 <style lang="less">
-
+.logDetail{
+  .dataBox{
+    width: 343px;
+    height: calc(~'100vh - 130px');
+    margin: 17px auto 0;
+    overflow: auto;
+    li{
+      box-sizing: border-box;
+      width: 343px;
+      height: 98px;
+      background: #F2F3F5;
+      border-radius: 3px;
+      padding: 0 16px;
+      margin-bottom: 10px;
+      p{
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #666666;
+        text-align: left;
+        line-height: 18px;
+        margin: 0 auto;
+      }
+    }
+  }
+  .btn{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2288EE;
+    border-radius: 3px;
+    width: 335px;
+    height: 44px;
+    margin: 0 auto;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    line-height: 16px;
+    &:hover{
+      background: #1F7CD9;
+    }
+  }
+  .imgBox{
+    text-align: center;
+    margin: 80px auto 0;
+  }
+}
 </style>
