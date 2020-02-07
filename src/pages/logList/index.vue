@@ -69,6 +69,7 @@ export default {
     .tip {
       color: #9b9b9b;
       margin-bottom: 5px;
+      font-size: .14rem;
     }
 
     .create-button {

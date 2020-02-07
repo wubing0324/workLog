@@ -1,8 +1,10 @@
 <template>
   <div class="logDetail">
+  <div class="btnBox">
     <van-button type="default" @click="changeDay('prev')">前一天</van-button>
     <van-button type="default" @click="goLogList">{{ formatDate }}</van-button>
     <van-button type="default" @click="changeDay('next')">后一天</van-button>
+  </div>
     <van-loading v-show="loading" size="24px">加载中...</van-loading>
     <div class="imgBox" v-show="logData.length === 0 && !loading">
       <img src="../../assets/not-found.png">
@@ -101,10 +103,14 @@ export default {
 
 <style lang="less">
 .logDetail{
+  overflow: hidden;
+  button{
+    height: .44rem;
+  }
   .dataBox{
     width: 3.43rem;
-    height: calc(~'100vh - 130px');
-    margin: 17px auto 0;
+    height: calc(~'100vh - 1.2rem');
+    margin: 0 auto;
     overflow: auto;
     li{
       box-sizing: border-box;
@@ -124,21 +130,28 @@ export default {
       }
     }
   }
+  .btnBox{
+    height: .44rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    margin-bottom: .1rem;
+  }
   .btn{
     position: absolute;
-    bottom: 10px;
+    bottom: 0.1rem;
     left: 50%;
     transform: translateX(-50%);
     background: #2288EE;
     border-radius: 3px;
-    width: 335px;
-    height: 44px;
+    width: 3.35rem;
+    height: .44rem;
     margin: 0 auto;
     font-family: PingFangSC-Regular;
-    font-size: 16px;
+    font-size: .16rem;
     color: #FFFFFF;
     letter-spacing: 0;
-    line-height: 16px;
+    line-height: .16rem;
     &:hover{
       background: #1F7CD9;
     }
