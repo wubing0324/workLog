@@ -17,9 +17,6 @@ export default {
     //   initScreen()
     //   window.addEventListener('resize', function (e) { initScreen(e) }, false)
     // }, 100)
-    window.C3.setTitle({
-      title: '工时日志'
-    })
   }
 }
 </script>

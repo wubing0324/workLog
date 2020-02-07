@@ -7,6 +7,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/logList'
+    },
+    {
+      path: '/logList',
       name: 'logList',
       meta: {
         title: '工时日志'

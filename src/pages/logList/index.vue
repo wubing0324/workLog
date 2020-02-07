@@ -14,7 +14,7 @@
     />
     <div class="footer-wrapper">
       <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
-      <van-button type="primary" block>新建日志</van-button>
+      <van-button type="primary" @click="logCreate" block>新建日志</van-button>
     </div>
   </div>
 </template>
@@ -42,6 +42,9 @@ export default {
     },
     onConfirm (date) {
       this.date = this.formatDate(date)
+    },
+    logCreate () {
+      this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
     }
   },
   mounted () {
