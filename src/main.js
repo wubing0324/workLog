@@ -5,7 +5,9 @@ import App from './App'
 import './components/vant/index'
 import router from './router'
 import 'vant/lib/button/style'
-
+import Vconsole from 'vconsole'
+const vConsole = new Vconsole()
+Vue.use(vConsole)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -14,4 +16,14 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
+})
+router.beforeEach((to, from, next) => {
+  try {
+    window.C3.setTitle({
+      title: to.meta.title
+    })
+    next()
+  } catch (error) {
+    next()
+  }
 })

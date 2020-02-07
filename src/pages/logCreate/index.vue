@@ -8,7 +8,6 @@
       rows="2"
       autosize
       type="textarea"
-      maxlength="50"
       placeholder="请输入工作内容"
       show-word-limit
     />

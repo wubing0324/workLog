@@ -45,8 +45,11 @@ export default {
     }
   },
   mounted () {
+    window.C3.setTitle({
+      title: '工时日志'
+    })
     const defaultDate = this.$route.params.defaultDate || new Date()
-    this.defaultDate = new Date(defaultDate)
+    this.defaultDate = defaultDate
     this.$refs.calender.scrollIntoView()
   }
 }
