@@ -14,7 +14,7 @@
     />
     <div class="footer-wrapper">
       <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
-      <van-button type="primary" @click="logCreate" block>新建日志</van-button>
+      <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
     </div>
   </div>
 </template>
@@ -30,9 +30,6 @@ export default {
     }
   },
   methods: {
-    logCreate () {
-      alert('create')
-    },
     formatter (day) {
       day.topInfo = '1'
       return day
@@ -67,9 +64,16 @@ export default {
     bottom: 0;
     width: 100%;
     background: #fff;
+    padding: 10px 0;
 
     .tip {
       color: #9b9b9b;
+      margin-bottom: 5px;
+    }
+
+    .create-button {
+      font-size: 16px;
+      width: calc(100vw - 40px);
     }
   }
 }
