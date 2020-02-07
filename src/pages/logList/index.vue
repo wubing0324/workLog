@@ -5,28 +5,35 @@
       class="list-calendar"
       title="日历"
       :min-date="minDate"
+      :max-date="maxDate"
       :poppable="false"
       :show-confirm="false"
       :style="{ height: '100vh' }"
       :formatter="formatter"
       :default-date="defaultDate"
       @confirm="onConfirm"
-    />
-    <div class="footer-wrapper">
+    >
+      <div class="footer-wrapper" slot="footer">
+        <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
+        <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
+      </div>
+    </van-calendar>
+    <!-- <div class="footer-wrapper">
       <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
       <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import day from 'dayjs'
 export default {
   name: 'logList',
   data () {
     return {
       minDate: new Date(2020, 0, 1),
-      defaultDate: new Date()
-      // maxDate: new Date()
+      defaultDate: new Date(),
+      maxDate: new Date(day().add(2, 'year'))
     }
   },
   methods: {
@@ -59,9 +66,11 @@ export default {
 .logList {
   position: relative;
 
+  .van-calendar__header-title {
+    display: none;
+  }
+
   .footer-wrapper {
-    position: fixed;
-    bottom: 0;
     width: 100%;
     background: #fff;
     padding: 10px 0;
