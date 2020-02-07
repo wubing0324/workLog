@@ -9,10 +9,13 @@
       :show-confirm="false"
       :style="{ height: '100vh' }"
       :formatter="formatter"
-      :date="date"
       :default-date="defaultDate"
       @confirm="onConfirm"
     />
+    <div class="footer-wrapper">
+      <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
+      <van-button type="primary" block>新建日志</van-button>
+    </div>
   </div>
 </template>
 
@@ -22,8 +25,7 @@ export default {
   data () {
     return {
       minDate: new Date(2020, 0, 1),
-      defaultDate: new Date(),
-      date: '2020/02/07'
+      defaultDate: new Date()
       // maxDate: new Date()
     }
   },
@@ -43,12 +45,28 @@ export default {
     }
   },
   mounted () {
+    const defaultDate = this.$route.params.defaultDate || new Date()
+    this.defaultDate = new Date(defaultDate)
     this.$refs.calender.scrollIntoView()
   }
 }
 </script>
 
 <style lang="less">
+.logList {
+  position: relative;
+
+  .footer-wrapper {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+
+    .tip {
+      color: #9b9b9b;
+    }
+  }
+}
 .van-calendar.list-calendar {
   position: relative;
 
