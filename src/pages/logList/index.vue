@@ -1,5 +1,6 @@
 <template>
   <div class="logList">
+    <h1>工时日志</h1>
     <van-button @click="logCreate" type="default">新建日志</van-button>
   </div>
 </template>
@@ -13,7 +14,7 @@ export default {
   },
   methods: {
     logCreate () {
-      alert('create')
+      this.$router.push({ name: 'logCreate', params: { logId: 1 } })
     }
   }
 }

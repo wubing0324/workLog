@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import './components/vant/index'
 import router from './router'
+import 'vant/lib/button/style'
 
 Vue.config.productionTip = false
 
