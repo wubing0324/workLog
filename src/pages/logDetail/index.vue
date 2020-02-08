@@ -6,11 +6,11 @@
     <van-button class="right" type="default" icon="arrow" @click="changeDay('next')"></van-button>
   </div>
     <van-loading v-show="loading" size="24px">加载中...</van-loading>
-    <div class="imgBox" v-show="logData.length === 0 && !loading">
+    <div class="imgBox" v-if="logData.length === 0 && !loading">
       <img src="../../assets/not-found.png">
       <p>还没有记录日志</p>
     </div>
-    <ul class="dataBox">
+    <ul v-else class="dataBox">
       <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
         <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}小时</span>
           <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
@@ -57,13 +57,7 @@ export default {
         5: '周五',
         6: '周六'
       },
-      logData: [
-        {
-          id: 0,
-          workUseTime: '3',
-          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
-        }
-      ],
+      logData: [],
       loading: true,
       filter: {
         searchDate: '',
@@ -84,7 +78,8 @@ export default {
     const { workDate } = this.$route.params
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
-    this.filter.searchDate = workDate
+    this.filter.searchDate = day(workDate).format('YYYY-MM-DD')
+    this.date = day(workDate)
     this.filter.userCenterId = this.info.userCenterId
     this.getData(this.filter)
   },
@@ -96,7 +91,8 @@ export default {
         this.date = day(this.date).add(1, 'day')
       }
       this.isEditable = this.date.unix() > this.dateSub7
-      this.getData(this.date)
+      this.filter.searchDate = this.date.format('YYYY-MM-DD')
+      this.getData(this.filter)
     },
     goLogList () {
       this.$router.push({ name: 'logList', params: { defaultDate: new Date(this.date) } })
@@ -114,7 +110,10 @@ export default {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })
     },
     async queryOneDayWorkLogList (data) {
+      this.loading = true
       let res = await queryOneDayWorkLogList(data)
+      this.logData = res.data
+      this.loading = false
       console.log(res)
     }
   }
@@ -221,6 +220,10 @@ export default {
   .imgBox{
     text-align: center;
     margin: 80px auto 0;
+    p{
+      font-size: .14rem;
+      color: #666666;
+    }
   }
 }
 </style>

@@ -53,7 +53,7 @@ export default {
       this.$router.push({ name: 'logDetail', params })
     },
     logCreate () {
-      this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
+      this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
     },
     async getDays () {
       const data = {

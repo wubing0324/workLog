@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import day from 'dayjs'
 import { saveOrUpdateUserWorkLog } from '../../apis/loglist.js'
 
 export default {
@@ -35,12 +36,11 @@ export default {
   },
   created () {
     const { defaultDate, formatDate, info } = this.$route.params
-    console.log(this.$route.params)
     this.workUseTime = info.workUseTime
     this.content = info.content
+    this.uuid = info.uuid
     this.workDate = new Date(defaultDate)
     this.formatDate = formatDate
-    console.log(this.workDate)
     let info1 = localStorage.getItem('info') || {}
     this.info = JSON.parse(info1)
   },
@@ -50,11 +50,12 @@ export default {
       return value.replace(/[^0-9]/g, '')
     },
     async saveOrUpdateUserWorkLog () {
-      const { workDate, workUseTime, content } = this
+      const { workDate, workUseTime, content, uuid } = this
       let params = {
-        workDate,
+        workDate: day(workDate).format('YYYY-MM-DD'),
         workUseTime,
-        content
+        content,
+        uuid
       }
       await saveOrUpdateUserWorkLog({...params, ...this.info})
       this.$router.push({ name: 'logDetail', params })
