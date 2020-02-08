@@ -1,9 +1,9 @@
 <template>
   <div class="logDetail">
   <div class="btnBox">
-    <van-button type="default" @click="changeDay('prev')">前一天</van-button>
+    <van-button class="left" type="default" icon="arrow-left" @click="changeDay('prev')"></van-button>
     <van-button type="default" @click="goLogList">{{ formatDate }}</van-button>
-    <van-button type="default" @click="changeDay('next')">后一天</van-button>
+    <van-button class="right" type="default" icon="arrow" @click="changeDay('next')"></van-button>
   </div>
     <van-loading v-show="loading" size="24px">加载中...</van-loading>
     <div class="imgBox" v-show="logData.length === 0 && !loading">
@@ -192,6 +192,26 @@ export default {
     margin-bottom: .1rem;
     button{
       height: .44rem;
+    }
+    .van-icon-arrow::before {
+      margin-top: 0;
+    }
+    .van-icon-arrow, .van-icon-arrow-left{
+      color: #b2b2b2;
+    }
+    .left{
+      &:active{
+        .van-icon-arrow-left{
+          color: #1F7CD9;
+        }
+      }
+    }
+    .right{
+      &:active{
+        .van-icon-arrow{
+          color: #1F7CD9;
+        }
+      }
     }
   }
   .btn{
