@@ -12,7 +12,7 @@
     </div>
     <ul class="dataBox">
       <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
-        <p class="title"><span>工作时间：</span><span>{{ item.hour }}</span>
+        <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}</span>
           <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
           <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
         </p>
@@ -58,32 +58,32 @@ export default {
       logData: [
         {
           id: 0,
-          hour: '3小时',
+          workUseTime: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
           id: 1,
-          hour: '3小时',
+          workUseTime: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
           id: 2,
-          hour: '3小时',
+          workUseTime: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
           id: 3,
-          hour: '3小时',
+          workUseTime: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
           id: 4,
-          hour: '3小时',
+          workUseTime: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
           id: 5,
-          hour: '3小时',
+          workUseTime: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         }
       ],

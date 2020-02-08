@@ -1,10 +1,10 @@
 <template>
   <div class="logCreate">
     <van-cell title="日期" :value="formatDate" title-style="text-align: left;" @click="show = true" is-link />
-    <van-calendar v-model="show" :default-date="date" :show-confirm="false" @confirm="onConfirm" :min-date="minDate" :max-date="maxDate" />
+    <van-calendar v-model="show" :default-date="workDate" :show-confirm="false" @confirm="onConfirm" :min-date="minDate" :max-date="maxDate" />
 
     <van-field
-      v-model="message"
+      v-model="content"
       rows="2"
       autosize
       type="textarea"
@@ -13,27 +13,29 @@
     />
     <van-field
       class="floatStyle"
-      v-model="hours"
+      v-model="workUseTime"
       label="小时"
       :formatter="formatter"
       placeholder="投入时间"
     />
-    <van-button class="btn" type="info" block @click="save">保存</van-button>
+    <van-button class="btn" type="info" block @click="saveOrUpdateUserWorkLog">保存</van-button>
   </div>
 </template>
 
 <script>
 import day from 'dayjs'
+import { saveOrUpdateUserWorkLog } from '../../apis/loglist.js'
+
 export default {
   name: 'logCreate',
   data () {
     return {
-      date: '',
-      hours: '',
+      workDate: '',
+      workUseTime: '',
       show: false,
       minDate: '',
       maxDate: '',
-      message: '',
+      content: '',
       week: {
         0: '周日',
         1: '周一',
@@ -42,39 +44,43 @@ export default {
         4: '周四',
         5: '周五',
         6: '周六'
-      }
+      },
+      info: ''
     }
   },
   computed: {
     formatDate () {
-      let month = this.date.getMonth() + 1
+      let month = this.workDate.getMonth() + 1
       month = month > 9 ? month : '0' + month
-      let day = this.date.getDate()
+      let day = this.workDate.getDate()
       day = day > 9 ? day : '0' + day
-      return `${month}月${day}日 ${this.week[this.date.getDay()]}`
+      return `${month}月${day}日 ${this.week[this.workDate.getDay()]}`
     }
   },
   created () {
     this.minDate = new Date(day().subtract(1, 'year'))
     this.maxDate = new Date(day().add(1, 'year'))
-    this.date = new Date()
+    this.workDate = new Date()
+    let info = localStorage.getItem('info') || {}
+    this.info = JSON.parse(info)
   },
   methods: {
     onConfirm (date) {
       this.show = false
-      this.date = date
+      this.workDate = date
     },
     formatter (value) {
       // 过滤输入的数字
       return value.replace(/[^0-9]/g, '')
     },
-    save () {
-      const { date, hours, message } = this
+    async saveOrUpdateUserWorkLog () {
+      const { workDate, workUseTime, content } = this
       let params = {
-        date,
-        hours,
-        message
+        workDate,
+        workUseTime,
+        content
       }
+      await saveOrUpdateUserWorkLog({...params, ...this.info})
       this.$router.push({ name: 'logDetail', params })
     }
   }

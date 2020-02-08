@@ -1,6 +1,6 @@
 <template>
   <div class="logEdit">
-    <van-cell title="日期" :value="date" title-style="text-align: left;" />
+    <van-cell title="日期" :value="workDate" title-style="text-align: left;" />
 
     <van-field
       v-model="content"
@@ -11,44 +11,48 @@
     />
     <van-field
       class="floatStyle"
-      v-model="hour"
+      v-model="workUseTime"
       label="小时"
       :formatter="formatter"
       placeholder="投入时间"
     />
-    <van-button class="btn" type="info" block @click="save">修改并保存</van-button>
+    <van-button class="btn" type="info" block @click="saveOrUpdateUserWorkLog">修改并保存</van-button>
   </div>
 </template>
 
 <script>
+import { saveOrUpdateUserWorkLog } from '../../apis/loglist.js'
+
 export default {
   name: 'logEdit',
   data () {
     return {
-      hours: '',
+      workUseTime: '',
       content: '',
-      date: ''
+      workDate: ''
     }
   },
   created () {
-    console.log(this.$route)
     const { defaultDate, info } = this.$route.params
-    this.hour = info.hour
+    this.workUseTime = info.workUseTime
     this.content = info.content
-    this.date = defaultDate
+    this.workDate = defaultDate
+    let info1 = localStorage.getItem('info') || {}
+    this.info = JSON.parse(info1)
   },
   methods: {
     formatter (value) {
       // 过滤输入的数字
       return value.replace(/[^0-9]/g, '')
     },
-    save () {
-      const { date, hours, message } = this
+    async saveOrUpdateUserWorkLog () {
+      const { workDate, workUseTime, content } = this
       let params = {
-        date,
-        hours,
-        message
+        workDate,
+        workUseTime,
+        content
       }
+      await saveOrUpdateUserWorkLog({...params, ...this.info})
       this.$router.push({ name: 'logDetail', params })
     }
   }
