@@ -78,10 +78,11 @@ export default {
     async saveOrUpdateUserWorkLog () {
       const { workDate, workUseTime, content } = this
       let params = {
-        workDate,
+        workDate: day(workDate).format('YYYY-MM-DD'),
         workUseTime,
         content
       }
+
       await saveOrUpdateUserWorkLog({...params, ...this.info})
       this.$router.push({ name: 'logDetail', params })
     }
