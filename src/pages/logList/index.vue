@@ -56,10 +56,11 @@ export default {
       this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
     },
     async getDays () {
+      let info = JSON.parse(localStorage.info)
       const data = {
         endDate: '2022/12/31',
         startDate: '2020/01/01',
-        userCenterId: '113719' // Todo
+        userCenterId: info.userCenterId
       }
       try {
         const response = await queryUserWorkLogSum(data)
