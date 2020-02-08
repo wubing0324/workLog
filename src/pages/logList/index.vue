@@ -27,6 +27,7 @@
 
 <script>
 import day from 'dayjs'
+import { queryUserWorkLogSum } from '../../apis/loglist'
 export default {
   name: 'logList',
   data () {
@@ -49,6 +50,10 @@ export default {
     },
     logCreate () {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
+    },
+    async getDays () {
+      const response = await queryUserWorkLogSum()
+      console.log(response)
     }
   },
   mounted () {
@@ -58,6 +63,7 @@ export default {
     const defaultDate = this.$route.params.defaultDate || new Date()
     this.defaultDate = defaultDate
     this.$refs.calender.scrollIntoView()
+    this.getDays()
   }
 }
 </script>
@@ -74,6 +80,7 @@ export default {
     width: 100%;
     background: #fff;
     padding: 10px 0;
+    font-size: .14px;
 
     .tip {
       color: #9b9b9b;
