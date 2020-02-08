@@ -52,7 +52,12 @@ export default {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
     },
     async getDays () {
-      const response = await queryUserWorkLogSum()
+      const data = {
+        endDate: '2022/01/01',
+        startDate: '2020/01/01',
+        userCenterId: 'junxiong.xu'
+      }
+      const response = await queryUserWorkLogSum(data)
       console.log(response)
     }
   },

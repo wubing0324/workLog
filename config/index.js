@@ -11,7 +11,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/sys': 'http://oaappver.test.geely.com/geely-chat-app'
+      '/sys': {
+        target: 'http://oaappver.test.geely.com/geely-chat-app',
+        changeOrigin: true
+      }
     },
 
     // Various Dev Server settings
