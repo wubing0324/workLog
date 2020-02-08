@@ -12,7 +12,7 @@
     </div>
     <ul class="dataBox">
       <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
-        <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}</span>
+        <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}小时</span>
           <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
           <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
         </p>
@@ -25,6 +25,7 @@
 
 <script>
 import day from 'dayjs'
+import { queryOneDayWorkLogList } from '../../apis/loglist.js'
 
 function debounce (handle, duration) {
   duration = duration || 500
@@ -38,6 +39,7 @@ function debounce (handle, duration) {
   }
   return newHandle
 }
+
 export default {
   name: 'logDetail',
   data () {
@@ -58,36 +60,15 @@ export default {
       logData: [
         {
           id: 0,
-          workUseTime: '3小时',
-          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
-        },
-        {
-          id: 1,
-          workUseTime: '3小时',
-          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
-        },
-        {
-          id: 2,
-          workUseTime: '3小时',
-          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
-        },
-        {
-          id: 3,
-          workUseTime: '3小时',
-          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
-        },
-        {
-          id: 4,
-          workUseTime: '3小时',
-          content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
-        },
-        {
-          id: 5,
-          workUseTime: '3小时',
+          workUseTime: '3',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         }
       ],
-      loading: true
+      loading: true,
+      filter: {
+        searchDate: '',
+        userCenterId: ''
+      }
     }
   },
   computed: {
@@ -96,10 +77,18 @@ export default {
     }
   },
   created () {
-    this.getData = debounce(this.getLogData, 300)
+    console.log(this.$route.params)
+    this.getData = debounce(this.queryOneDayWorkLogList, 300)
     this.dateSub7 = day(this.date).subtract(7, 'day').unix()
     this.isEditable = this.date.unix() > this.dateSub7
-    this.getData(this.date)
+    const { workDate } = this.$route.params
+    let info = localStorage.getItem('info') || {}
+    this.info = JSON.parse(info)
+    this.filter.searchDate = workDate
+    console.log(info)
+    this.filter.userCenterId = this.info.userCenterId
+    console.log(this.filter)
+    this.getData(this.filter)
   },
   methods: {
     changeDay (type) {
@@ -126,11 +115,9 @@ export default {
     logCreate () {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })
     },
-    getLogData (date) {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
+    async queryOneDayWorkLogList (data) {
+      let res = await queryOneDayWorkLogList(data)
+      console.log(res)
     }
   }
 }

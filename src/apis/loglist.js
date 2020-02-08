@@ -23,3 +23,11 @@ export function saveOrUpdateUserWorkLog (data) {
     data
   })
 }
+
+export function queryOneDayWorkLogList (data) {
+  return request({
+    url: '/sys/userworklog/queryOneDayWorkLogList',
+    method: 'post',
+    data
+  })
+}
