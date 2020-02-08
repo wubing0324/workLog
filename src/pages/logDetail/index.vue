@@ -33,7 +33,7 @@ function debounce (handle, duration) {
   function newHandle (data) {
     var self = this
     clearTimeout(timer)
-    timer = setTimeout(function (data) {
+    timer = setTimeout(function () {
       handle.apply(self, [data])
     }, duration)
   }
@@ -85,9 +85,7 @@ export default {
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
     this.filter.searchDate = workDate
-    console.log(info)
     this.filter.userCenterId = this.info.userCenterId
-    console.log(this.filter)
     this.getData(this.filter)
   },
   methods: {
