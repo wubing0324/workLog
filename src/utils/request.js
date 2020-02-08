@@ -9,6 +9,10 @@ const service = axios.create({
   withCredentials: true
 })
 
+if (process.env.NODE_ENV === 'production') {
+  service.baseURL = process.env.BASE_API
+}
+
 // service.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 // service.defaults.withCredentials = true
 // request拦截器
