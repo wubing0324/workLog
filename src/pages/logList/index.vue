@@ -43,11 +43,14 @@ export default {
       }
       return time
     },
-    formatDate (date) {
-      return `${date.getMonth() + 1}/${date.getDate()}`
-    },
     onConfirm (date) {
-      this.date = this.formatDate(date)
+      let time = day(date).format('YYYY-MM-DD')
+      let workUseTime = this.daysMap[time]
+      let params = {
+        workDate: date,
+        workUseTime
+      }
+      this.$router.push({ name: 'logDetail', params })
     },
     logCreate () {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
