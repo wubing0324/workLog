@@ -3,17 +3,15 @@
     <van-cell title="日期" :value="date" title-style="text-align: left;" />
 
     <van-field
-      v-model="message"
+      v-model="content"
       rows="2"
       autosize
       type="textarea"
-      maxlength="50"
       placeholder="请输入工作内容"
-      show-word-limit
     />
     <van-field
       class="floatStyle"
-      v-model="hours"
+      v-model="hour"
       label="小时"
       :formatter="formatter"
       placeholder="投入时间"
@@ -28,11 +26,16 @@ export default {
   data () {
     return {
       hours: '',
-      message: '',
-      date: '2018'
+      content: '',
+      date: ''
     }
   },
   created () {
+    console.log(this.$route)
+    const { defaultDate, info } = this.$route.params
+    this.hour = info.hour
+    this.content = info.content
+    this.date = defaultDate
   },
   methods: {
     formatter (value) {

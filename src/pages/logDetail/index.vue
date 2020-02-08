@@ -11,9 +11,12 @@
       <p>还没有记录日志</p>
     </div>
     <ul class="dataBox">
-      <li v-for="(item, index) in logData" :key="index" @click="goLogEdit(item)">
-        <p><span>工作时间：</span><span>{{ item.hour }}</span><van-button type="default">修改</van-button></p>
-        <p><span>工作内容：</span> <span>{{ item.content }}</span></p>
+      <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
+        <p class="title"><span>工作时间：</span><span>{{ item.hour }}</span>
+          <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
+          <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
+        </p>
+        <p class="content"><span>工作内容：</span> <span>{{ item.content }}</span></p>
       </li>
     </ul>
     <van-button class="btn" type="info" block @click="logCreate">新建日志</van-button>
@@ -23,12 +26,26 @@
 <script>
 import day from 'dayjs'
 
+function debounce (handle, duration) {
+  duration = duration || 500
+  let timer = null
+  function newHandle (data) {
+    var self = this
+    clearTimeout(timer)
+    timer = setTimeout(function (data) {
+      handle.apply(self, [data])
+    }, duration)
+  }
+  return newHandle
+}
 export default {
   name: 'logDetail',
   data () {
     return {
       day: day,
       date: day(),
+      isEditable: true,
+      dateSub7: '',
       week: {
         0: '周日',
         1: '周一',
@@ -40,26 +57,32 @@ export default {
       },
       logData: [
         {
+          id: 0,
           hour: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
+          id: 1,
           hour: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
+          id: 2,
           hour: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
+          id: 3,
           hour: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
+          id: 4,
           hour: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         },
         {
+          id: 5,
           hour: '3小时',
           content: '好多好多话好多好多话好多话好多话时间的思考军事基地'
         }
@@ -73,7 +96,10 @@ export default {
     }
   },
   created () {
-    this.getLogData()
+    this.getData = debounce(this.getLogData, 300)
+    this.dateSub7 = day(this.date).subtract(7, 'day').unix()
+    this.isEditable = this.date.unix() > this.dateSub7
+    this.getData(this.date)
   },
   methods: {
     changeDay (type) {
@@ -82,20 +108,29 @@ export default {
       } else {
         this.date = day(this.date).add(1, 'day')
       }
+      this.isEditable = this.date.unix() > this.dateSub7
+      this.getData(this.date)
     },
     goLogList () {
       this.$router.push({ name: 'logList', params: { defaultDate: new Date(this.date) } })
     },
-    goLogEdit () {
-      this.$router.push({ name: 'logEdit', params: { defaultDate: this.date } })
+    goLogEditOrView (info) {
+      let name
+      if (this.isEditable) {
+        name = 'logEdit'
+      } else {
+        name = 'logView'
+      }
+      this.$router.push({ name: name, params: { defaultDate: this.formatDate, info, id: info.id } })
     },
     logCreate () {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
     },
-    getLogData () {
+    getLogData (date) {
+      this.loading = true
       setTimeout(() => {
         this.loading = false
-      }, 3000)
+      }, 1000)
     }
   }
 }
@@ -105,7 +140,8 @@ export default {
 .logDetail{
   overflow: hidden;
   button{
-    height: .44rem;
+    border: 0;
+    background: transparent;
   }
   .dataBox{
     width: 3.43rem;
@@ -120,13 +156,31 @@ export default {
       border-radius: 3px;
       padding: 0 16px;
       margin-bottom: 10px;
+      overflow: hidden;
       p{
         font-family: PingFangSC-Regular;
-        font-size: 14px;
         color: #666666;
         text-align: left;
-        line-height: 18px;
         margin: 0 auto;
+        &.title{
+          height: .22rem;
+          font-size: .16rem;
+          color: #191919;
+          margin: .16rem 0 0.08rem 0;
+          .editBtn{
+            font-size: .14rem;
+            color: #2288EE;
+            float: right;
+            height: .22rem;
+            line-height: .22rem;
+          }
+        }
+        &.content{
+          font-size: .14rem;
+          color: #666666;
+          text-align: left;
+          line-height: .18rem;
+        }
       }
     }
   }
@@ -136,6 +190,9 @@ export default {
     display: flex;
     justify-content: center;
     margin-bottom: .1rem;
+    button{
+      height: .44rem;
+    }
   }
   .btn{
     position: absolute;

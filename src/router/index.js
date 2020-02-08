@@ -34,7 +34,7 @@ export default new Router({
       component: () => import('@/pages/logDetail/index')
     },
     {
-      path: '/logEdit',
+      path: '/logEdit/:id',
       name: 'logEdit',
       meta: {
         title: '修改日志'
@@ -42,7 +42,7 @@ export default new Router({
       component: () => import('@/pages/logEdit/index')
     },
     {
-      path: '/logView',
+      path: '/logView/:id',
       name: 'logView',
       meta: {
         title: '查看日志'
