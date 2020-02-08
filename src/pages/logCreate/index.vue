@@ -58,9 +58,11 @@ export default {
     }
   },
   created () {
+    const { defaultDate } = this.$route.params
+    console.log(this.$route.params)
     this.minDate = new Date(day().subtract(1, 'year'))
     this.maxDate = new Date(day().add(1, 'year'))
-    this.workDate = new Date()
+    this.workDate = new Date(defaultDate)
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="logEdit">
-    <van-cell title="日期" :value="workDate" title-style="text-align: left;" />
+    <van-cell title="日期" :value="formatDate" title-style="text-align: left;" />
 
     <van-field
       v-model="content"
@@ -29,14 +29,18 @@ export default {
     return {
       workUseTime: '',
       content: '',
-      workDate: ''
+      workDate: '',
+      formatDate: ''
     }
   },
   created () {
-    const { defaultDate, info } = this.$route.params
+    const { defaultDate, formatDate, info } = this.$route.params
+    console.log(this.$route.params)
     this.workUseTime = info.workUseTime
     this.content = info.content
-    this.workDate = defaultDate
+    this.workDate = new Date(defaultDate)
+    this.formatDate = formatDate
+    console.log(this.workDate)
     let info1 = localStorage.getItem('info') || {}
     this.info = JSON.parse(info1)
   },

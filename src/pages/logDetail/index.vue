@@ -121,10 +121,10 @@ export default {
       } else {
         name = 'logView'
       }
-      this.$router.push({ name: name, params: { defaultDate: this.formatDate, info, id: info.id } })
+      this.$router.push({ name: name, params: { defaultDate: this.date, formatDate: this.formatDate, info, id: info.id } })
     },
     logCreate () {
-      this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
+      this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })
     },
     getLogData (date) {
       this.loading = true
