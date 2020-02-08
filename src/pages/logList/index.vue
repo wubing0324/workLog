@@ -18,10 +18,6 @@
         <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
       </div>
     </van-calendar>
-    <!-- <div class="footer-wrapper">
-      <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
-      <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
-    </div> -->
   </div>
 </template>
 
@@ -34,13 +30,18 @@ export default {
     return {
       minDate: new Date(2020, 0, 1),
       defaultDate: new Date(),
-      maxDate: new Date(day().add(2, 'year'))
+      maxDate: new Date(day().add(2, 'year')),
+      daysMap: {}
     }
   },
   methods: {
-    formatter (day) {
-      day.topInfo = '1'
-      return day
+    formatter (time) {
+      let date = day(time.date).format('YYYY-MM-DD')
+      let hours = this.daysMap[date]
+      if (hours) {
+        time.topInfo = hours
+      }
+      return time
     },
     formatDate (date) {
       return `${date.getMonth() + 1}/${date.getDate()}`
@@ -53,22 +54,31 @@ export default {
     },
     async getDays () {
       const data = {
-        endDate: '2022/01/01',
+        endDate: '2022/12/31',
         startDate: '2020/01/01',
-        userCenterId: 'junxiong.xu'
+        userCenterId: '113719' // Todo
       }
-      const response = await queryUserWorkLogSum(data)
-      console.log(response)
+      try {
+        const response = await queryUserWorkLogSum(data)
+        const result = response.data || []
+        let daysObj = {}
+        result.map(item => {
+          daysObj[item.workDate] = item.workUseTime
+        })
+        this.daysMap = daysObj
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   mounted () {
+    this.getDays()
     window.C3.setTitle({
       title: '工时日志'
     })
     const defaultDate = this.$route.params.defaultDate || new Date()
     this.defaultDate = defaultDate
     this.$refs.calender.scrollIntoView()
-    this.getDays()
   }
 }
 </script>
