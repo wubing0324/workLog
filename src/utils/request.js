@@ -14,8 +14,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    console.log('-----config------')
-    console.log(config)
+    config.headers.token = '67c585d8-0d4f-4ab7-bf2e-938118c3a6c9'
     return config
   },
   error => {
@@ -32,7 +31,7 @@ service.interceptors.response.use(
      * success 为非true 是抛错 可结合自己业务进行修改
      */
     const res = response.data
-    if (!res.success) {
+    if (res.code !== 'success') {
       Notify({ type: 'danger', message: res.message })
       return Promise.reject(new Error(res.message))
     } else {
