@@ -72,8 +72,8 @@ export default {
   },
   created () {
     this.getData = debounce(this.queryOneDayWorkLogList, 300)
-    this.dateSub7 = day(this.date).subtract(7, 'day').unix()
-    this.isEditable = this.date.unix() > this.dateSub7
+    this.dateSub7 = day().subtract(7, 'day').unix()
+    console.log(this.isEditable)
     const { workDate } = this.$route.params
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
@@ -85,6 +85,7 @@ export default {
       this.date = day(time)
       this.filter.searchDate = day(time).format('YYYY-MM-DD')
     }
+    this.isEditable = this.date.unix() > this.dateSub7
     this.filter.userCenterId = this.info.userCenterId
     this.getData(this.filter)
   },
