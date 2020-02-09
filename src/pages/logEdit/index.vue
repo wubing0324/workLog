@@ -100,7 +100,7 @@ export default {
         let summary = result.reduce((pre, next) => {
           return pre + next.workUseTime
         }, 0)
-        this.summary = summary - this.workUseTime
+        this.summary = summary - parseInt(this.workUseTime)
       } catch (e) {
         console.log(e)
       }
