@@ -63,7 +63,7 @@ export default {
   },
   created () {
     const { defaultDate } = this.$route.params
-    let time = localStorage.getItem('createTime')
+    let time = JSON.parse(localStorage.getItem('createTime'))
     this.minDate = new Date(day().subtract(7, 'day'))
     this.maxDate = new Date(day().add(1, 'year'))
     if (defaultDate) {
