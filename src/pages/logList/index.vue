@@ -82,7 +82,9 @@ export default {
     })
     const defaultDate = this.$route.params.defaultDate || new Date()
     this.defaultDate = defaultDate
-    this.$refs.calender.scrollIntoView()
+    this.$nextTick(() => {
+      this.$refs.calender.scrollIntoView()
+    })
   }
 }
 </script>

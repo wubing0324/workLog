@@ -3,15 +3,32 @@ import { Notify } from 'vant'
 // import { getToken } from '@/utils/auth'
 
 // 创建axios实例
-const service = axios.create({
-  // baseURL: process.env.BASE_API, // api 的 base_url
-  timeout: 5000, // 请求超时时间
-  withCredentials: true
-})
+// const service = axios.create({
+//   // baseURL: process.env.BASE_API, // api 的 base_url
+//   timeout: 5000, // 请求超时时间
+//   withCredentials: true
+// })
+
+let service = ''
 
 if (process.env.NODE_ENV === 'production') {
-  service.baseURL = process.env.BASE_API
+  // service.baseURL = process.env.BASE_API
+  service = axios.create({
+    baseURL: process.env.BASE_API, // api 的 base_url
+    timeout: 5000, // 请求超时时间
+    withCredentials: true
+  })
+} else {
+  // 创建axios实例
+  service = axios.create({
+  // baseURL: process.env.BASE_API, // api 的 base_url
+    timeout: 5000, // 请求超时时间
+    withCredentials: true
+  })
 }
+
+console.log('------')
+console.log(process.env.NODE_ENV)
 
 // service.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 // service.defaults.withCredentials = true
