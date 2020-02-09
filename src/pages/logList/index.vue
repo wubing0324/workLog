@@ -24,6 +24,7 @@
 <script>
 import day from 'dayjs'
 import { queryUserWorkLogSum } from '../../apis/loglist'
+
 export default {
   name: 'logList',
   data () {

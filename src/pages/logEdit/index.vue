@@ -22,7 +22,8 @@
 
 <script>
 import day from 'dayjs'
-import { saveOrUpdateUserWorkLog } from '../../apis/loglist.js'
+import { saveOrUpdateUserWorkLog, queryUserWorkLogSum } from '../../apis/loglist.js'
+import { Notify } from 'vant'
 
 export default {
   name: 'logEdit',
@@ -59,10 +60,47 @@ export default {
         content,
         uuid
       }
+      if (!content) {
+        Notify({ type: 'danger', message: '内容不能为空' })
+        return
+      }
+      if (!workUseTime) {
+        Notify({ type: 'danger', message: '工时不能为空' })
+        return
+      }
+      if (this.summary + Number(workUseTime) > 24) {
+        Notify({ type: 'danger', message: `一天的工时不能超过24小时,当前${this.summary}工时` })
+        return
+      }
       await saveOrUpdateUserWorkLog({...params, ...this.info})
       localStorage.setItem('editInfo', JSON.stringify(this.$route.params))
       this.$router.push({ name: 'logDetail', params })
+    },
+    async getDays () {
+      let today = day(this.workDate).format('YYYY-MM-DD')
+      const data = {
+        endDate: today,
+        startDate: today,
+        userCenterId: this.info.userCenterId
+      }
+      try {
+        const response = await queryUserWorkLogSum(data)
+        const result = response.data || []
+        let daysObj = {}
+        result.map(item => {
+          daysObj[item.workDate] = item.workUseTime
+        })
+        let summary = result.reduce((pre, next) => {
+          return pre + next.workUseTime
+        }, 0)
+        this.summary = summary
+      } catch (e) {
+        console.log(e)
+      }
     }
+  },
+  mounted () {
+    this.getDays()
   }
 }
 </script>
