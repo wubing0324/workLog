@@ -27,9 +27,6 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-console.log('------')
-console.log(process.env.NODE_ENV)
-
 // service.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 // service.defaults.withCredentials = true
 // request拦截器
@@ -61,7 +58,12 @@ service.interceptors.response.use(
     }
   },
   error => {
-    Notify({ type: 'danger', message: error.message })
+    if (!error.response) {
+      // 断网了
+      Notify({ type: 'danger', message: '暂无网络' })
+    } else {
+      Notify({ type: 'danger', message: error.message })
+    }
     return Promise.reject(error)
   }
 )
