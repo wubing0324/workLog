@@ -113,6 +113,9 @@ export default {
 </script>
 
 <style lang="less">
+.van-cell__value{
+  font-size: .16rem;
+}
 .logEdit{
   height: 100vh;
   background: #f2f3f5;

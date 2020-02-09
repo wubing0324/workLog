@@ -1,10 +1,10 @@
 <template>
   <div class="logDetail">
-    <p class="title">{{ date }}</p>
-    <p class="tip">工作内容</p>
+    <p class="title">{{ formatDate }}</p>
+    <p class="tip">工作内容:</p>
     <p class="content">{{ content }}</p>
     <p class="tip">工作时间</p>
-    <p class="content">{{ hour }}</p>
+    <p class="content">{{ workUseTime }}小时</p>
   </div>
 </template>
 
@@ -13,16 +13,16 @@ export default {
   name: 'logEdit',
   data () {
     return {
-      hours: '',
+      workUseTime: '',
       content: '',
-      date: ''
+      formatDate: ''
     }
   },
   created () {
-    const { defaultDate, info } = this.$route.params
-    this.hour = info.hour
+    const { info, formatDate } = this.$route.params
+    this.workUseTime = info.workUseTime
     this.content = info.content
-    this.date = defaultDate
+    this.formatDate = formatDate
   },
   methods: {
     formatter (value) {
