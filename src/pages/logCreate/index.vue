@@ -19,7 +19,7 @@
       :formatter="formatter"
       placeholder="投入时间"
     />
-    <van-button class="btn" type="info" :loading="loading" loading-text="保存中..." block @click="saveOrUpdateUserWorkLog">保存</van-button>
+    <van-button class="btn" type="info" :loading="loading" v-show="isEditable" loading-text="保存中..." block @click="saveOrUpdateUserWorkLog">保存</van-button>
   </div>
 </template>
 
@@ -36,7 +36,9 @@ export default {
       workUseTime: '',
       show: false,
       minDate: '',
+      minDateUnix: '',
       maxDate: '',
+      isEditable: true,
       content: '',
       loading: false,
       week: {
@@ -64,7 +66,9 @@ export default {
   created () {
     const { defaultDate } = this.$route.params
     let time = JSON.parse(localStorage.getItem('createTime'))
-    this.minDate = new Date(day().subtract(7, 'day'))
+    this.minDateUnix = day().subtract(7, 'day').unix()
+    console.log(this.minDateUnix)
+    this.minDate = new Date(day().subtract(6, 'day'))
     this.maxDate = new Date(day().add(1, 'year'))
     if (defaultDate) {
       this.workDate = new Date(defaultDate)
@@ -78,6 +82,8 @@ export default {
     onConfirm (date) {
       this.show = false
       this.workDate = date
+      this.isEditable = this.minDateUnix < day(date).unix()
+      console.log(this.isEditable)
     },
     formatter (value) {
       // 过滤输入的数字

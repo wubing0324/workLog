@@ -74,7 +74,6 @@ export default {
     this.getData = debounce(this.queryOneDayWorkLogList, 300)
     this.dateSub7 = day().subtract(7, 'day').unix()
     const { workDate } = this.$route.params
-    console.log(workDate)
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
     if (workDate) {
@@ -189,7 +188,7 @@ export default {
       height: .44rem;
     }
     .van-button__text{
-      font-size: .16rem;
+      font-size:.16rem;
     }
     .van-icon-arrow::before {
       margin-top: 0;
