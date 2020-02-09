@@ -16,7 +16,7 @@
           <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
           <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
         </p>
-        <p class="content"><span>工作内容：</span> <span class="contentHeight">{{ item.content }}</span></p>
+        <p class="content">工作内容：{{ item.content }}</p>
       </li>
     </ul>
     <van-button class="btn" v-show="isEditable" type="info" block @click="logCreate">新建日志</van-button>
@@ -162,6 +162,7 @@ export default {
             float: right;
             height: .22rem;
             line-height: .22rem;
+            padding-right:0;
           }
         }
         &.content{
@@ -169,6 +170,10 @@ export default {
           color: #666666;
           text-align: left;
           line-height: .18rem;
+          display: -webkit-box; 
+          -webkit-line-clamp: 2; 
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       }
     }

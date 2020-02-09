@@ -19,7 +19,7 @@
       :formatter="formatter"
       placeholder="投入时间"
     />
-    <van-button class="btn" type="info" block @click="saveOrUpdateUserWorkLog">保存</van-button>
+    <van-button class="btn" type="info" :loading="loading" loading-text="保存中..." block @click="saveOrUpdateUserWorkLog">保存</van-button>
   </div>
 </template>
 
@@ -38,6 +38,7 @@ export default {
       minDate: '',
       maxDate: '',
       content: '',
+      loading: false,
       week: {
         0: '周日',
         1: '周一',
@@ -105,8 +106,9 @@ export default {
         Notify({ type: 'danger', message: `工时不能为0` })
         return
       }
-
+      this.loading = true
       await saveOrUpdateUserWorkLog({...params, ...this.info})
+      this.loading = false
       localStorage.setItem('createTime', JSON.stringify(params.workDate))
       this.$router.push({ name: 'logDetail', params })
     },
@@ -141,6 +143,9 @@ export default {
 
 <style lang="less">
 .logCreate{
+  height: 100vh;
+  background: #f2f3f5;
+  overflow: hidden;
   .van-popup{
     .van-icon-cross{
       display:none;

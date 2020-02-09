@@ -1,6 +1,6 @@
 <template>
   <div class="logEdit">
-    <van-cell title="日期" :value="formatDate" title-style="text-align: left;" />
+    <van-cell title="日期" :value="formatDate" title-style="text-align: left;" :border="false" />
 
     <van-field
       v-model="content"
@@ -10,6 +10,7 @@
       type="textarea"
       placeholder="请输入工作内容"
       show-word-limit
+      :border="false"
     />
     <van-field
       class="floatStyle"
@@ -17,8 +18,9 @@
       label="小时"
       :formatter="formatter"
       placeholder="投入时间"
+      :border="false"
     />
-    <van-button class="btn" type="info" block @click="saveOrUpdateUserWorkLog">修改并保存</van-button>
+    <van-button class="btn" type="info" block :loading="loading" loading-text="保存中..." @click="saveOrUpdateUserWorkLog">修改并保存</van-button>
   </div>
 </template>
 
@@ -34,7 +36,8 @@ export default {
       workUseTime: '',
       content: '',
       workDate: '',
-      formatDate: ''
+      formatDate: '',
+      loading: false
     }
   },
   created () {
@@ -74,7 +77,9 @@ export default {
         Notify({ type: 'danger', message: `一天的工时不能超过24小时,当前${this.summary}工时` })
         return
       }
+      this.loading = true
       await saveOrUpdateUserWorkLog({...params, ...this.info})
+      this.loading = false
       localStorage.setItem('editInfo', JSON.stringify(this.$route.params))
       this.$router.push({ name: 'logDetail', params })
     },
@@ -108,38 +113,43 @@ export default {
 </script>
 
 <style lang="less">
-.van-cell{
-  margin: 10px auto;
-}
-.titleStyle, .van-cell__title{
-  text-align: left;
-}
-.van-icon-arrow::before {
-    margin-top: 4px;
-}
-.floatStyle{
-  display: block;
-  .van-cell__title{
-    float: right;
-    text-align: right;
+.logEdit{
+  height: 100vh;
+  background: #f2f3f5;
+  overflow: hidden;
+  .van-cell{
+    margin: 10px auto;
   }
-  .van-cell__value{
-    float: left;
+  .titleStyle, .van-cell__title{
+    text-align: left;
   }
-}
-.btn{
-  background: #2288EE;
-  border-radius: 3px;
-  width: 335px;
-  height: 44px;
-  margin: 20px auto;
-  font-family: PingFangSC-Regular;
-  font-size: 16px;
-  color: #FFFFFF;
-  letter-spacing: 0;
-  line-height: 16px;
-  &:hover{
-    background: #1F7CD9;
+  .van-icon-arrow::before {
+      margin-top: 4px;
+  }
+  .floatStyle{
+    display: block;
+    .van-cell__title{
+      float: right;
+      text-align: right;
+    }
+    .van-cell__value{
+      float: left;
+    }
+  }
+  .btn{
+    background: #2288EE;
+    border-radius: 3px;
+    width: 335px;
+    height: 44px;
+    margin: 20px auto;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    line-height: 16px;
+    &:hover{
+      background: #1F7CD9;
+    }
   }
 }
 </style>
