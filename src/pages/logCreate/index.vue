@@ -7,6 +7,7 @@
       v-model="content"
       rows="2"
       autosize
+      maxlength="300"
       type="textarea"
       placeholder="请输入工作内容"
       show-word-limit
@@ -60,7 +61,7 @@ export default {
   created () {
     const { defaultDate } = this.$route.params
     let time = localStorage.getItem('createTime')
-    this.minDate = new Date(day().subtract(1, 'year'))
+    this.minDate = new Date(day().subtract(7, 'day'))
     this.maxDate = new Date(day().add(1, 'year'))
     if (defaultDate) {
       this.workDate = new Date(defaultDate)
