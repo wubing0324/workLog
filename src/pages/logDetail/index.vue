@@ -13,13 +13,13 @@
     <ul v-else class="dataBox">
       <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
         <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}小时</span>
-          <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
-          <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
+          <van-button v-show="!isEditable" class="editBtn" type="default">修改</van-button>
+          <van-button v-show="isEditable" class="editBtn" type="default">查看</van-button>
         </p>
         <p class="content"><span>工作内容：</span> <span>{{ item.content }}</span></p>
       </li>
     </ul>
-    <van-button class="btn" type="info" block @click="logCreate">新建日志</van-button>
+    <van-button class="btn" v-show="isEditable" type="info" block @click="logCreate">新建日志</van-button>
   </div>
 </template>
 
@@ -67,20 +67,24 @@ export default {
   },
   computed: {
     formatDate () {
-      return `${this.date.format('YYYY年MM月DD')} ${this.week[this.date.format('d')]}`
+      return `${this.date.format('YYYY年MM月DD日')} ${this.week[this.date.format('d')]}`
     }
   },
   created () {
-    console.log(this.$route.params)
     this.getData = debounce(this.queryOneDayWorkLogList, 300)
     this.dateSub7 = day(this.date).subtract(7, 'day').unix()
     this.isEditable = this.date.unix() > this.dateSub7
     const { workDate } = this.$route.params
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
-    this.filter.searchDate = day(workDate).format('YYYY-MM-DD')
-    this.date = day(workDate)
-    console.log(workDate)
+    if (workDate) {
+      this.date = day(workDate)
+      this.filter.searchDate = day(workDate).format('YYYY-MM-DD')
+    } else {
+      let time = localStorage.getItem('detailTime')
+      this.date = day(time)
+      this.filter.searchDate = day(time).format('YYYY-MM-DD')
+    }
     this.filter.userCenterId = this.info.userCenterId
     this.getData(this.filter)
   },
@@ -113,9 +117,9 @@ export default {
     async queryOneDayWorkLogList (data) {
       this.loading = true
       let res = await queryOneDayWorkLogList(data)
+      localStorage.setItem('detailTime', JSON.stringify(data.searchDate))
       this.logData = res.data
       this.loading = false
-      console.log(res)
     }
   }
 }

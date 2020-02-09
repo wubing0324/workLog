@@ -6,8 +6,10 @@
       v-model="content"
       rows="2"
       autosize
+      maxlength="300"
       type="textarea"
       placeholder="请输入工作内容"
+      show-word-limit
     />
     <van-field
       class="floatStyle"
