@@ -90,7 +90,7 @@ export default {
         workUseTime,
         content
       }
-      if (!content) {
+      if (!content.trim()) {
         Notify({ type: 'danger', message: '内容不能为空' })
         return
       }
