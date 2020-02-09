@@ -59,15 +59,16 @@ export default {
   },
   created () {
     const { defaultDate } = this.$route.params
-    console.log(this.$route.params)
     let time = localStorage.getItem('createTime')
-    console.log(typeof time)
     this.minDate = new Date(day().subtract(1, 'year'))
     this.maxDate = new Date(day().add(1, 'year'))
-    this.workDate = new Date(defaultDate) || new Date(time)
+    if (defaultDate) {
+      this.workDate = new Date(defaultDate)
+    } else {
+      this.workDate = new Date(time)
+    }
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
-    console.log(new Date(time))
   },
   methods: {
     onConfirm (date) {

@@ -35,11 +35,13 @@ export default {
     }
   },
   created () {
-    const { defaultDate, formatDate, info } = this.$route.params
+    let editInfo = localStorage.getItem('editInfo') || {}
+    editInfo = this.$route.params.info ? this.$route.params : JSON.parse(editInfo)
+    const { defaultDate, formatDate, info } = editInfo
+    this.workDate = new Date(defaultDate)
     this.workUseTime = info.workUseTime
     this.content = info.content
     this.uuid = info.uuid
-    this.workDate = new Date(defaultDate)
     this.formatDate = formatDate
     let info1 = localStorage.getItem('info') || {}
     this.info = JSON.parse(info1)
@@ -58,6 +60,7 @@ export default {
         uuid
       }
       await saveOrUpdateUserWorkLog({...params, ...this.info})
+      localStorage.setItem('editInfo', JSON.stringify(this.$route.params))
       this.$router.push({ name: 'logDetail', params })
     }
   }
