@@ -55,7 +55,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/H5/workLog/',
+    // assetsPublicPath: '/H5/workLog/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

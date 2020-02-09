@@ -70,6 +70,9 @@ export default {
           daysObj[item.workDate] = item.workUseTime
         })
         this.daysMap = daysObj
+        this.$nextTick(() => {
+          this.$refs.calender.scrollIntoView()
+        })
       } catch (e) {
         console.log(e)
       }
