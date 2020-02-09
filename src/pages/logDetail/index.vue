@@ -13,10 +13,10 @@
     <ul v-else class="dataBox">
       <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
         <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}小时</span>
-          <van-button v-show="!isEditable" class="editBtn" type="default">修改</van-button>
-          <van-button v-show="isEditable" class="editBtn" type="default">查看</van-button>
+          <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
+          <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
         </p>
-        <p class="content"><span>工作内容：</span> <span>{{ item.content }}</span></p>
+        <p class="content"><span>工作内容：</span> <span class="contentHeight">{{ item.content }}</span></p>
       </li>
     </ul>
     <van-button class="btn" v-show="isEditable" type="info" block @click="logCreate">新建日志</van-button>
