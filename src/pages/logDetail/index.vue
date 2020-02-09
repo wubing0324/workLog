@@ -188,6 +188,9 @@ export default {
     button{
       height: .44rem;
     }
+    .van-button__text{
+      font-size: .16rem;
+    }
     .van-icon-arrow::before {
       margin-top: 0;
     }
