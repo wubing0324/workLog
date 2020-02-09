@@ -66,7 +66,7 @@ export default {
         Notify({ type: 'danger', message: '内容不能为空' })
         return
       }
-      if (!workUseTime) {
+      if (!workUseTime || Number(workUseTime) === 0) {
         Notify({ type: 'danger', message: '工时不能为空' })
         return
       }

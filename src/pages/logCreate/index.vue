@@ -93,7 +93,7 @@ export default {
         Notify({ type: 'danger', message: '内容不能为空' })
         return
       }
-      if (!workUseTime) {
+      if (!workUseTime || Number(workUseTime) === 0) {
         Notify({ type: 'danger', message: '工时不能为空' })
         return
       }
@@ -101,11 +101,6 @@ export default {
         Notify({ type: 'danger', message: `一天的工时不能超过24小时,当前${this.summary}工时` })
         return
       }
-      if (Number(workUseTime) <= 0) {
-        Notify({ type: 'danger', message: `工时不能为0` })
-        return
-      }
-
       await saveOrUpdateUserWorkLog({...params, ...this.info})
       localStorage.setItem('createTime', JSON.stringify(params.workDate))
       this.$router.push({ name: 'logDetail', params })
