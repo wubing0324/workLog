@@ -80,6 +80,7 @@ export default {
     this.info = JSON.parse(info)
     this.filter.searchDate = day(workDate).format('YYYY-MM-DD')
     this.date = day(workDate)
+    console.log(workDate)
     this.filter.userCenterId = this.info.userCenterId
     this.getData(this.filter)
   },
@@ -104,7 +105,7 @@ export default {
       } else {
         name = 'logView'
       }
-      this.$router.push({ name: name, params: { defaultDate: this.date, formatDate: this.formatDate, info, id: info.id } })
+      this.$router.push({ name: name, params: { defaultDate: this.date, formatDate: this.formatDate, info, id: info.uuid } })
     },
     logCreate () {
       this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })

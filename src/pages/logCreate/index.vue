@@ -60,11 +60,14 @@ export default {
   created () {
     const { defaultDate } = this.$route.params
     console.log(this.$route.params)
+    let time = localStorage.getItem('createTime')
+    console.log(typeof time)
     this.minDate = new Date(day().subtract(1, 'year'))
     this.maxDate = new Date(day().add(1, 'year'))
-    this.workDate = new Date(defaultDate)
+    this.workDate = new Date(defaultDate) || new Date(time)
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
+    console.log(new Date(time))
   },
   methods: {
     onConfirm (date) {
@@ -84,6 +87,7 @@ export default {
       }
 
       await saveOrUpdateUserWorkLog({...params, ...this.info})
+      localStorage.setItem('createTime', JSON.stringify(params.workDate))
       this.$router.push({ name: 'logDetail', params })
     }
   }
@@ -94,7 +98,7 @@ export default {
 .logCreate{
   .van-popup{
     .van-icon-cross{
-      display: none;
+      display:none;
     }
   }
   .van-cell{
