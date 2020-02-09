@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       minDate: new Date(2020, 0, 1),
-      defaultDate: new Date(),
+      defaultDate: null,
       maxDate: new Date(day().add(2, 'year')),
       daysMap: {}
     }
@@ -78,13 +78,15 @@ export default {
       }
     }
   },
+  created () {
+    this.defaultDate = this.$route.params.defaultDate || new Date()
+  },
   mounted () {
     this.getDays()
     window.C3.setTitle({
       title: '工时日志'
     })
-    const defaultDate = this.$route.params.defaultDate || new Date()
-    this.defaultDate = defaultDate
+
     this.$nextTick(() => {
       this.$refs.calender.scrollIntoView()
     })
