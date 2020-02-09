@@ -13,7 +13,7 @@ export default new Router({
       path: '/logList',
       name: 'logList',
       meta: {
-        title: '工时日志'
+        title: '工作日志'
       },
       component: () => import('@/pages/logList/index')
     },

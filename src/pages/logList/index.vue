@@ -85,7 +85,7 @@ export default {
   mounted () {
     this.getDays()
     window.C3.setTitle({
-      title: '工时日志'
+      title: '工作日志'
     })
 
     this.$nextTick(() => {
