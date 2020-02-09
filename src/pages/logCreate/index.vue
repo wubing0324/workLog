@@ -1,7 +1,7 @@
 <template>
   <div class="logCreate">
     <van-cell title="日期" :value="formatDate" title-style="text-align: left;" @click="show = true" is-link />
-    <van-calendar v-model="show" :default-date="workDate" :show-confirm="false" @confirm="onConfirm" :min-date="minDate" :max-date="maxDate" />
+    <van-calendar v-model="show" :default-date="workDate" color="#2288EE" :show-confirm="false" @confirm="onConfirm" :min-date="minDate" :max-date="maxDate" />
 
     <van-field
       v-model="content"
@@ -91,38 +91,45 @@ export default {
 </script>
 
 <style lang="less">
-.van-cell{
-  margin: 10px auto;
-}
-.titleStyle, .van-cell__title{
-  text-align: left;
-}
-.van-icon-arrow::before {
-    margin-top: 4px;
-}
-.floatStyle{
-  display: block;
-  .van-cell__title{
-    float: right;
-    text-align: right;
+.logCreate{
+  .van-popup{
+    .van-icon-cross{
+      display: none;
+    }
   }
-  .van-cell__value{
-    float: left;
+  .van-cell{
+    margin: 10px auto;
   }
-}
-.btn{
-  background: #2288EE;
-  border-radius: 3px;
-  width: 335px;
-  height: 44px;
-  margin: 20px auto;
-  font-family: PingFangSC-Regular;
-  font-size: 16px;
-  color: #FFFFFF;
-  letter-spacing: 0;
-  line-height: 16px;
-  &:hover{
-    background: #1F7CD9;
+  .titleStyle, .van-cell__title{
+    text-align: left;
+  }
+  .van-icon-arrow::before {
+      margin-top: 4px;
+  }
+  .floatStyle{
+    display: block;
+    .van-cell__title{
+      float: right;
+      text-align: right;
+    }
+    .van-cell__value{
+      float: left;
+    }
+  }
+  .btn{
+    background: #2288EE;
+    border-radius: 3px;
+    width: 335px;
+    height: 44px;
+    margin: 20px auto;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    line-height: 16px;
+    &:hover{
+      background: #1F7CD9;
+    }
   }
 }
 </style>

@@ -7,6 +7,10 @@ import router from './router'
 import 'vant/lib/button/style'
 import { getQueryVariable } from './utils/tools'
 import Vconsole from 'vconsole'
+// if (process.env.NODE_ENV !== 'production') {
+//   const vConsole = new Vconsole()
+//   Vue.use(vConsole)
+// }
 const vConsole = new Vconsole()
 Vue.use(vConsole)
 Vue.config.productionTip = false
