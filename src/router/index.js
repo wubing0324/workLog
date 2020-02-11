@@ -7,47 +7,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/logList'
+      redirect: '/register'
     },
     {
-      path: '/logList',
-      name: 'logList',
+      path: '/register',
+      name: 'register',
       meta: {
-        title: '工作日志'
+        title: '疫情防控登记'
       },
-      component: () => import('@/pages/logList/index')
+      component: () => import('@/pages/register/index')
     },
     {
-      path: '/logCreate',
-      name: 'logCreate',
+      path: '/success',
+      name: 'success',
       meta: {
-        title: '新建日志'
+        title: '疫情防控登记'
       },
-      component: () => import('@/pages/logCreate/index')
-    },
-    {
-      path: '/logDetail',
-      name: 'logDetail',
-      meta: {
-        title: '日志详情'
-      },
-      component: () => import('@/pages/logDetail/index')
-    },
-    {
-      path: '/logEdit/:id',
-      name: 'logEdit',
-      meta: {
-        title: '修改日志'
-      },
-      component: () => import('@/pages/logEdit/index')
-    },
-    {
-      path: '/logView/:id',
-      name: 'logView',
-      meta: {
-        title: '查看日志'
-      },
-      component: () => import('@/pages/logView/index')
+      component: () => import('@/pages/success/index')
     }
   ]
 })

@@ -6,16 +6,12 @@ import './components/vant/index'
 import router from './router'
 import 'vant/lib/button/style'
 import { getQueryVariable } from './utils/tools'
-// import Vconsole from 'vconsole'
-// if (process.env.NODE_ENV !== 'production') {
-//   const vConsole = new Vconsole()
-//   Vue.use(vConsole)
-// }
 
 Vue.config.productionTip = false
 
 let token = getQueryVariable('token')
 localStorage.token = token
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -23,6 +19,7 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
 router.beforeEach((to, from, next) => {
   try {
     window.C3.setTitle({
