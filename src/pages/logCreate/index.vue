@@ -14,9 +14,10 @@
     />
     <van-field
       class="floatStyle"
+      type="number"
+      :formatter="formatter"
       v-model="workUseTime"
       label="小时"
-      :formatter="formatter"
       placeholder="投入时间"
     />
     <van-button class="btn" type="info" :loading="loading" v-show="isEditable" loading-text="保存中..." block @click="saveOrUpdateUserWorkLog">保存</van-button>
@@ -87,13 +88,23 @@ export default {
     },
     formatter (value) {
       // 过滤输入的数字
-      return value.replace(/[^0-9]/g, '')
+      let arr = []
+      if (value.indexOf('.') > -1) {
+        arr = value.split('.')
+        if (arr[1].length > 1) {
+          arr[1] = arr[1][0]
+          value = arr.join('.')
+          Notify({ type: 'danger', message: `只能是一位小数` })
+        }
+      }
+      console.log(value)
+      return value
     },
     async saveOrUpdateUserWorkLog () {
       const { workDate, workUseTime, content } = this
       let params = {
         workDate: day(workDate).format('YYYY-MM-DD'),
-        workUseTime,
+        workUseTime: parseFloat(workUseTime),
         content
       }
       if (!content.trim()) {
@@ -166,9 +177,11 @@ export default {
     .van-cell__title{
       float: right;
       text-align: right;
+      width: 38px;
     }
     .van-cell__value{
       float: left;
+      width: 300px;
     }
   }
   .btn{
