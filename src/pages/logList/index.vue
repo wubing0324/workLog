@@ -23,7 +23,7 @@
 
 <script>
 import day from 'dayjs'
-import { queryUserWorkLogSum } from '../../apis/loglist'
+import { queryUserWorkLogSum, authUserToken } from '../../apis/loglist'
 
 export default {
   name: 'logList',
@@ -57,26 +57,31 @@ export default {
       this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
     },
     async getDays () {
-      let info = JSON.parse(localStorage.info)
-      const data = {
-        endDate: '2022/12/31',
-        startDate: '2020/01/01',
-        userCenterId: info.userCenterId
-      }
-      try {
-        const response = await queryUserWorkLogSum(data)
-        const result = response.data || []
-        let daysObj = {}
-        result.map(item => {
-          daysObj[item.workDate] = item.workUseTime
+      authUserToken({'token': localStorage.token}).then((response) => {
+        let d = response && response.data
+        let data = {
+          empNo: d.empNo,
+          name: d.nickName,
+          userCenterId: d.userId
+        }
+        localStorage.setItem('info', JSON.stringify(data))
+        const p = {
+          endDate: '2022/12/31',
+          startDate: '2020/01/01',
+          userCenterId: data.userCenterId
+        }
+        queryUserWorkLogSum(p).then((res) => {
+          const result = res.data || []
+          let daysObj = {}
+          result.map(item => {
+            daysObj[item.workDate] = item.workUseTime
+          })
+          this.daysMap = daysObj
+          this.$nextTick(() => {
+            this.$refs.calender.scrollIntoView()
+          })
         })
-        this.daysMap = daysObj
-        this.$nextTick(() => {
-          this.$refs.calender.scrollIntoView()
-        })
-      } catch (e) {
-        console.log(e)
-      }
+      })
     }
   },
   created () {

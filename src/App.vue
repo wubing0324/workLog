@@ -5,12 +5,8 @@
 </template>
 
 <script>
-import { authUserToken } from './apis/loglist.js'
 export default {
   name: 'App',
-  created () {
-    this.getUserInfo()
-  },
   mounted () {
     var HTML = document.getElementsByTagName('html')[0]
     var initScreen = () => {
@@ -21,18 +17,6 @@ export default {
       initScreen()
       window.addEventListener('resize', function (e) { initScreen(e) }, false)
     }, 100)
-  },
-  methods: {
-    async getUserInfo () {
-      const response = await authUserToken({'token': localStorage.token})
-      let d = response && response.data
-      let data = {
-        empNo: d.empNo,
-        name: d.nickName,
-        userCenterId: d.userId
-      }
-      localStorage.setItem('info', JSON.stringify(data))
-    }
   }
 }
 </script>
