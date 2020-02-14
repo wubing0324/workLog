@@ -8,8 +8,10 @@
 import { authUserToken } from './apis/loglist.js'
 export default {
   name: 'App',
-  mounted () {
+  created () {
     this.getUserInfo()
+  },
+  mounted () {
     var HTML = document.getElementsByTagName('html')[0]
     var initScreen = () => {
       var fontSize = document.documentElement.clientWidth / 375 * 625

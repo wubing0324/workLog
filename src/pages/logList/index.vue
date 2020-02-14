@@ -126,14 +126,14 @@ export default {
 
   .van-calendar__top-info {
     position: absolute;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
+    width: 26px;
+    height: 13px;
+    line-height: 14px;
     text-align: center;
-    right: 4px;
-    top: 8px;
+    right: 0;
+    top: 5px;
     left: unset;
-    border-radius: 50%;
+    border-radius: 2px;
     background-color: #2288ee;
     color: #fff;
   }

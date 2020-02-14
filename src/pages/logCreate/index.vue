@@ -97,7 +97,6 @@ export default {
           Notify({ type: 'danger', message: `只能是一位小数` })
         }
       }
-      console.log(value)
       return value
     },
     async saveOrUpdateUserWorkLog () {
@@ -181,7 +180,7 @@ export default {
     }
     .van-cell__value{
       float: left;
-      width: 300px;
+      width: 250px;
     }
   }
   .btn{

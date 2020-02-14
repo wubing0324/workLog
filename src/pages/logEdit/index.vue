@@ -148,7 +148,7 @@ export default {
     }
     .van-cell__value{
       float: left;
-      width: 300px;
+      width: 250px;
     }
   }
   .btn{
