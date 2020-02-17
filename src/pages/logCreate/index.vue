@@ -118,6 +118,7 @@ export default {
         Notify({ type: 'danger', message: `一天的工时不能超过24小时,当前${this.summary}工时` })
         return
       }
+      this.loading = true
       await saveOrUpdateUserWorkLog({...params, ...this.info})
       this.loading = false
       localStorage.setItem('createTime', JSON.stringify(params.workDate))
