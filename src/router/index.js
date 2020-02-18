@@ -18,6 +18,14 @@ export default new Router({
       component: () => import('@/pages/logList/index')
     },
     {
+      path: '/logList1',
+      name: 'logList1',
+      meta: {
+        title: '日历'
+      },
+      component: () => import('@/pages/logList1/index.vue')
+    },
+    {
       path: '/logCreate',
       name: 'logCreate',
       meta: {
