@@ -10,16 +10,16 @@ export default new Router({
       redirect: '/logList'
     },
     {
-      path: '/logList',
-      name: 'logList',
+      path: '/logList1',
+      name: 'logList1',
       meta: {
         title: '工作日志'
       },
       component: () => import('@/pages/logList/index')
     },
     {
-      path: '/logList1',
-      name: 'logList1',
+      path: '/logList',
+      name: 'logList',
       meta: {
         title: '日历'
       },

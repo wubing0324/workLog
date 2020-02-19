@@ -6,10 +6,13 @@
         <span>{{showDate.year}} {{yearName}}</span>
         <a class="m-next-btn" @click="changeYear('next')"></a>
       </div> -->
-      <div class="m-month-selector">
-        <a class="m-prev-btn" @click="changeMonth('prev')"></a>
+      <div class="btnBox">
+        <van-button class="left" type="default" icon="arrow-left" @click="changeMonth('prev')"></van-button>
+        <span>{{showDate.year}}{{yearName}}{{monthNames[showDate.month-1]}}月</span>
+        <van-button class="right" type="default" icon="arrow" @click="changeMonth('next')"></van-button>
+        <!-- <a class="m-prev-btn" @click="changeMonth('prev')"></a>
         <span>{{showDate.year}} {{yearName}} {{monthNames[showDate.month-1]}} 月</span>
-        <a class="m-next-btn" @click="changeMonth('next')"></a>
+        <a class="m-next-btn" @click="changeMonth('next')"></a> -->
       </div>
     </div>
     <div class="m-week-header">

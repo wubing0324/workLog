@@ -182,7 +182,7 @@ export default {
     height: .44rem;
     overflow: hidden;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: .1rem;
     button{
       height: .44rem;

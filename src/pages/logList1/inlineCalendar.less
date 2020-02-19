@@ -3,10 +3,49 @@
   .m-toolbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: #f7f7f8;
+    justify-content: center;
+    background: #fff;
     height: 44px;
-    font-size: 17px;
+    font-size: 16px;
+    color: #191919;
+    .btnBox{
+      width: 100%;
+      height: .44rem;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+      button{
+        background: #fff;
+        border: 0;
+        outline: 0;
+        height: .44rem;
+      }
+      .van-button__text{
+        font-size:.16rem;
+      }
+      .van-icon-arrow::before {
+        margin-top: 0;
+      }
+      .van-icon-arrow, .van-icon-arrow-left{
+        color: #b2b2b2;
+      }
+      .left{
+        &:active{
+          .van-icon-arrow-left{
+            color: #1F7CD9;
+          }
+        }
+      }
+      .right{
+        &:active{
+          .van-icon-arrow{
+            color: #1F7CD9;
+          }
+        }
+      }
+    }
     .m-month-selector,
     .m-year-selector {
       display: flex;
@@ -34,8 +73,9 @@
     position: relative;
     display: flex;
     box-sizing: border-box;
-    font-size: 11px;
-    background: #f7f7f8;
+    font-size: 14px;
+    background: #fff;
+    margin-top: 10px;
     .m-week-day {
       flex: 1;
       text-align: center;
@@ -49,7 +89,7 @@
   .m-months-container {
     position: relative;
     box-sizing: border-box;
-    height: 320px;
+    height: 3.20rem;
     overflow: hidden;
     .m-months-wrapper {
       position: absolute;
@@ -67,7 +107,7 @@
         .m-row {
           position: relative;
           display: flex;
-          height: 64px;
+          height: .64rem;
           &::before {
             content: '';
             position: absolute;
@@ -82,19 +122,19 @@
           }
           .m-day {
             position: relative;
-            height: 64px;
-            width: 64px;
-            line-height: 40px;
-            font-size: 16px;
+            height: .64rem;
+            width: .64rem;
+            line-height: .4rem;
+            font-size: .16rem;
             width: calc(100% / 7);
             text-align: center;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             .m-day-num {
               position: relative;
-              width: 53px;
-              height: 53px;
-              line-height: 54px;
+              width: .53rem;
+              height: .53rem;
+              line-height: .53rem;
               display: block;
               border-radius: 4px;
               margin: 5px auto;

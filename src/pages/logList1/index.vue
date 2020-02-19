@@ -1,14 +1,19 @@
 <template>
 <div class="logList1">
-    <inlineCalendar @change="handelChange" @switch="handelSwitch">
+    <inlineCalendar @change="handelChange" @switch="handelSwitch" :defaultDate="defaultDate" :minDate="minDate">
       <template v-slot:hour="slotProps">
         <span v-show="daysMap[slotProps.time.YYYYMMDD] > 0" class="hourTip">{{ daysMap[slotProps.time.YYYYMMDD] }}</span>
       </template>
     </inlineCalendar>
+    <div class="footer-wrapper">
+      <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
+      <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
+    </div>
 </div>
 </template>
 
 <script>
+import day from 'dayjs'
 import inlineCalendar from './inlineCalendar'
 import { queryUserWorkLogSum, authUserToken } from '../../apis/loglist'
 
@@ -16,11 +21,17 @@ export default {
   name: 'logList1',
   data () {
     return {
+      minDate: new Date(2020, 0, 1),
+      defaultDate: null,
+      maxDate: new Date(day().add(2, 'year')),
       daysMap: {}
     }
   },
   components: {
     inlineCalendar
+  },
+  created () {
+    this.defaultDate = this.$route.params.defaultDate || new Date()
   },
   mounted () {
     this.getDays()
@@ -29,8 +40,17 @@ export default {
     })
   },
   methods: {
-    handelChange (val) {
-      this.$emit('change', val)
+    logCreate () {
+      this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
+    },
+    handelChange (date) {
+      let time = day(date).format('YYYY-MM-DD')
+      let workUseTime = this.daysMap[time]
+      let params = {
+        workDate: date,
+        workUseTime
+      }
+      this.$router.push({ name: 'logDetail', params })
     },
     handelSwitch (val) {
       this.$emit('switch', val)
@@ -66,9 +86,9 @@ export default {
 .logList1{
   .hourTip{
     position: absolute;
-    width: 26px;
-    height: 13px;
-    line-height: 14px;
+    width: .27rem;
+    height: .13rem;
+    line-height: .15rem;
     text-align: center;
     right: 0;
     top: 0;
@@ -76,7 +96,31 @@ export default {
     border-radius: 2px;
     background-color: #2288ee;
     color: #fff;
-    font-size: 12px;
+    font-size: .12rem;
+  }
+
+  .van-calendar__header-title {
+    display: none;
+  }
+
+  .footer-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    padding: 10px 0;
+    font-size: .14px;
+
+    .tip {
+      color: #9b9b9b;
+      margin-bottom: 5px;
+      font-size: .14rem;
+    }
+
+    .create-button {
+      font-size: 16px;
+      width: calc(100vw - 40px);
+    }
   }
 }
 </style>
