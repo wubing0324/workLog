@@ -20,6 +20,14 @@
       </li>
     </ul>
     <van-button class="btn" v-show="isEditable" type="info" block @click="logCreate">新建日志</van-button>
+    <van-popup
+      v-model="show"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
+      <van-button icon="https://img.yzcdn.cn/vant/logo.png" @click="goTemplate('')" type="info">通用模版</van-button>
+      <van-button icon="https://img.yzcdn.cn/vant/logo.png" @click="goTemplate('It')" type="info">IT模版</van-button>
+    </van-popup>
   </div>
 </template>
 
@@ -44,6 +52,7 @@ export default {
   name: 'logDetail',
   data () {
     return {
+      show: false,
       day: day,
       date: day(),
       isEditable: true,
@@ -62,6 +71,10 @@ export default {
       filter: {
         searchDate: '',
         userCenterId: ''
+      },
+      logType: {
+        0: '',
+        1: 'It'
       }
     }
   },
@@ -109,10 +122,14 @@ export default {
       } else {
         name = 'logView'
       }
-      this.$router.push({ name: name, params: { defaultDate: this.date, formatDate: this.formatDate, info, id: info.uuid } })
+      this.$router.push({ name: name + this.logType[info.logType], params: { defaultDate: this.date, formatDate: this.formatDate, info, id: info.uuid } })
+    },
+    goTemplate (type) {
+      this.$router.push({ name: 'logCreate' + type, params: { defaultDate: this.date, formatDate: this.formatDate } })
     },
     logCreate () {
-      this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })
+      this.show = true
+      // this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })
     },
     async queryOneDayWorkLogList (data) {
       this.loading = true
@@ -146,6 +163,9 @@ export default {
       padding: 0 16px;
       margin-bottom: 10px;
       overflow: hidden;
+      &:hover, &:active{
+        background: #E5E5E5;
+      }
       p{
         font-family: PingFangSC-Regular;
         color: #666666;

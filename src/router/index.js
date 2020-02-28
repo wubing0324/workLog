@@ -56,6 +56,30 @@ export default new Router({
         title: '查看日志'
       },
       component: () => import('@/pages/logView/index')
+    },
+    {
+      path: '/logCreateIt',
+      name: 'logCreateIt',
+      meta: {
+        title: '新建日志'
+      },
+      component: () => import('@/pages/logCreate/indexIt')
+    },
+    {
+      path: '/logEditIt/:id',
+      name: 'logEditIt',
+      meta: {
+        title: '修改日志'
+      },
+      component: () => import('@/pages/logEdit/indexIt')
+    },
+    {
+      path: '/logViewIt/:id',
+      name: 'logViewIt',
+      meta: {
+        title: '查看日志'
+      },
+      component: () => import('@/pages/logView/indexIt')
     }
   ]
 })

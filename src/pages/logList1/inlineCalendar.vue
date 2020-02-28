@@ -256,7 +256,7 @@ export default {
       }
       switch (this.$props.mode) {
       case 'single':
-        if (!day.isSelect && !day.isDisable) {
+        if (!day.isDisable) {
           this.selectDate = day.dateTime;
           this.getFullDate(this.showDate);
           this.emitChange();
@@ -413,9 +413,7 @@ export default {
       return isDisable;
     },
     formater(dateTime) {
-      console.log(dateTime)
       let d = dayjs(dateTime).format('YYYY-MM-DD')
-      console.log(d)
       return d
     },
     getDate(thisDate) {

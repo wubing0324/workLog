@@ -31,3 +31,35 @@ export function queryOneDayWorkLogList (data) {
     data
   })
 }
+
+export function getUserWorkLogInitData (data) {
+  return request({
+    url: '/sys/userworklog/getUserWorkLogInitData',
+    method: 'get',
+    params: data
+  })
+}
+
+export function saveOrUpdateUserWorkLogIt (data) {
+  return request({
+    url: '/sys/userworklog/saveOrUpdateUserWorkLogIt',
+    method: 'post',
+    data
+  })
+}
+
+export function queryUserWorkLogItByUuid (data) {
+  return request({
+    url: '/sys/userworklog/queryUserWorkLogItByUuid',
+    method: 'get',
+    params: data
+  })
+}
+
+export function getLastWorkLogIt (data) {
+  return request({
+    url: '/sys/userworklog/getLastWorkLogIt',
+    method: 'get',
+    params: data
+  })
+}

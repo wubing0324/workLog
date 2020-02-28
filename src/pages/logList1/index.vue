@@ -9,6 +9,14 @@
       <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
       <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
     </div>
+    <van-popup
+      v-model="show"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
+      <van-button icon="https://img.yzcdn.cn/vant/logo.png" @click="goTemplate('')" type="info">通用模版</van-button>
+      <van-button icon="https://img.yzcdn.cn/vant/logo.png" @click="goTemplate('It')" type="info">IT模版</van-button>
+    </van-popup>
 </div>
 </template>
 
@@ -24,7 +32,8 @@ export default {
       minDate: new Date(2020, 0, 1),
       defaultDate: null,
       maxDate: new Date(day().add(2, 'year')),
-      daysMap: {}
+      daysMap: {},
+      show: false
     }
   },
   components: {
@@ -40,8 +49,12 @@ export default {
     })
   },
   methods: {
+    goTemplate (type) {
+      this.$router.push({ name: 'logCreate' + type, params: { defaultDate: new Date() } })
+    },
     logCreate () {
-      this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
+      this.show = true
+      // this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
     },
     handelChange (date) {
       let time = day(date).format('YYYY-MM-DD')
