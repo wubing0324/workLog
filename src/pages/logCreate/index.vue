@@ -68,7 +68,6 @@ export default {
     const { defaultDate } = this.$route.params
     let time = JSON.parse(localStorage.getItem('createTime'))
     this.minDateUnix = day().subtract(7, 'day').unix()
-    console.log(this.minDateUnix)
     this.minDate = new Date(day().subtract(6, 'day'))
     this.maxDate = new Date(day().add(1, 'year'))
     if (defaultDate) {
@@ -84,7 +83,6 @@ export default {
       this.show = false
       this.workDate = date
       this.isEditable = this.minDateUnix < day(date).unix()
-      console.log(this.isEditable)
     },
     formatter (value) {
       // 过滤输入的数字

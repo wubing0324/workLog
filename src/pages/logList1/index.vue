@@ -12,10 +12,20 @@
     <van-popup
       v-model="show"
       position="bottom"
-      :style="{ height: '30%' }"
+      :style="{ height: '35%' }"
     >
-      <van-button icon="https://img.yzcdn.cn/vant/logo.png" @click="goTemplate('')" type="info">通用模版</van-button>
-      <van-button icon="https://img.yzcdn.cn/vant/logo.png" @click="goTemplate('It')" type="info">IT模版</van-button>
+    <p class="tmpTitle">选择日志模板</p>
+    <div class="btnBox1">
+      <div class="btnTm">
+        <img src="../../assets/tmp.png" @click="goTemplate('')" alt="" srcset="">
+        <p>通用模板</p>
+      </div>
+      <div class="btnTm">
+        <img src="../../assets/tmp.png" @click="goTemplate('It')" alt="" srcset="">
+        <p>IT模板</p>
+      </div>
+    </div>
+    <van-button @click="closeOverly" class="cancleBtn" type="default">取消</van-button>
     </van-popup>
 </div>
 </template>
@@ -49,6 +59,9 @@ export default {
     })
   },
   methods: {
+    closeOverly () {
+      this.show = false
+    },
     goTemplate (type) {
       this.$router.push({ name: 'logCreate' + type, params: { defaultDate: new Date() } })
     },
@@ -97,6 +110,45 @@ export default {
 </script>
 <style lang="less">
 .logList1{
+  .cancleBtn{
+    width: 100%;
+    height: .44rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 0 #DEDEDE;
+    font-size: .17rem;
+    color: #323233;
+  }
+  .tmpTitle{
+    font-size: .16rem;
+    color: #323233;
+    text-align: center;
+    margin: .24rem auto;
+  }
+  .btnBox1{
+    width: 1.85rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    .btnTm{
+      height: 1.02rem;
+      img{
+        display: block;
+        width: .46rem;
+        height: .56rem;
+        margin: 0 auto;
+      }
+      p{
+        font-size: .12rem;
+        color: #666666;
+        line-height: .18rem;
+        margin: .04rem auto;
+        text-align: center;
+      }
+    }
+  }
   .hourTip{
     position: absolute;
     width: .27rem;

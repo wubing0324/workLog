@@ -154,7 +154,6 @@ export default {
       this.unProject = {...unproject}
     },
     selectProject (project) {
-      console.log(project)
       this.project = {...project}
       this.showProject = false
     },
