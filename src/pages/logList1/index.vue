@@ -17,11 +17,11 @@
     <p class="tmpTitle">选择日志模板</p>
     <div class="btnBox1">
       <div class="btnTm">
-        <img src="../../assets/tmp.png" @click="goTemplate('')" alt="" srcset="">
+        <img src="../../assets/01.svg" @click="goTemplate('')" alt="" srcset="">
         <p>通用模板</p>
       </div>
       <div class="btnTm">
-        <img src="../../assets/tmp.png" @click="goTemplate('It')" alt="" srcset="">
+        <img src="../../assets/02.svg" @click="goTemplate('It')" alt="" srcset="">
         <p>IT模板</p>
       </div>
     </div>
