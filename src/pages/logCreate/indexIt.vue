@@ -170,15 +170,31 @@ export default {
         this.columns = this.userWorkLogTypeList
       } else {
         this.valueKey = 'workClassName'
-        this.columns = this.userWorkLogClassList
+        let arr = []
+        this.userWorkLogClassList.forEach(item => {
+          if (item.workTypeId === this.workType.workTypeName) {
+            arr.push(item)
+          }
+        })
+        this.columns = arr
+        if (this.category.workTypeId !== this.workType.workTypeName) {
+          Object.keys(this.category).forEach(k => {
+            this.category[k] = ''
+          })
+        }
       }
       this.showPicker = true
     },
     onConfirmWorkTypeOrCategory (value) {
       if (this.type === 's') {
         this.workType = value
+        if (this.category.workTypeId !== this.workType.workTypeName) {
+          Object.keys(this.category).forEach(k => {
+            this.category[k] = ''
+          })
+        }
       } else {
-        this.category = value
+        this.category = value || this.category
       }
       this.showPicker = false
     },
@@ -321,6 +337,11 @@ export default {
             this.category = item
           }
         })
+        if (this.category.workTypeId !== this.workType.workTypeName) {
+          Object.keys(this.category).forEach(k => {
+            this.category[k] = ''
+          })
+        }
         this.userWorkLogProjectList.forEach((item) => {
           if (item.projectId === res.data.projectId) {
             this.project = item

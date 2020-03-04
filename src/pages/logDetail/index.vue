@@ -27,13 +27,9 @@
     >
       <p class="tmpTitle">选择日志模板</p>
     <div class="btnBox1">
-      <div class="btnTm">
-        <img src="../../assets/01.svg" @click="goTemplate('')" alt="" srcset="">
-        <p>通用模板</p>
-      </div>
-      <div class="btnTm">
-        <img src="../../assets/02.svg" @click="goTemplate('It')" alt="" srcset="">
-        <p>IT模板</p>
+      <div class="btnTm" v-for="item in tmpList" :key="item.templateName">
+        <img :src="'/static/0' + item.type + '.svg'" @click="goTemplate(item.type)" alt="" srcset="">
+        <p>{{item.templateName}}</p>
       </div>
     </div>
     <van-button @click="closeOverly" class="cancleBtn" type="default">取消</van-button>
@@ -43,7 +39,7 @@
 
 <script>
 import day from 'dayjs'
-import { queryOneDayWorkLogList } from '../../apis/loglist.js'
+import { queryOneDayWorkLogList, getUserWorkLogTemplateList } from '../../apis/loglist.js'
 
 function debounce (handle, duration) {
   duration = duration || 500
@@ -85,7 +81,8 @@ export default {
       logType: {
         0: '',
         1: 'It'
-      }
+      },
+      tmpList: []
     }
   },
   computed: {
@@ -109,6 +106,9 @@ export default {
     }
     this.isEditable = this.date.unix() > this.dateSub7
     this.filter.userCenterId = this.info.userCenterId
+    getUserWorkLogTemplateList({userCenterId: this.info.userCenterId}).then((res) => {
+      this.tmpList = res.data
+    })
     this.getData(this.filter)
   },
   methods: {
@@ -138,11 +138,14 @@ export default {
       this.$router.push({ name: name + this.logType[info.logType], params: { defaultDate: this.date, formatDate: this.formatDate, info, id: info.uuid } })
     },
     goTemplate (type) {
-      this.$router.push({ name: 'logCreate' + type, params: { defaultDate: this.date, formatDate: this.formatDate } })
+      this.$router.push({ name: 'logCreate' + this.logType[type], params: { defaultDate: this.date, formatDate: this.formatDate } })
     },
     logCreate () {
-      this.show = true
-      // this.$router.push({ name: 'logCreate', params: { defaultDate: this.date, formatDate: this.formatDate } })
+      if (this.tmpList.length > 1) {
+        this.show = true
+      } else {
+        this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
+      }
     },
     async queryOneDayWorkLogList (data) {
       this.loading = true

@@ -155,15 +155,31 @@ export default {
         this.columns = this.userWorkLogTypeList
       } else {
         this.valueKey = 'workClassName'
-        this.columns = this.userWorkLogClassList
+        let arr = []
+        this.userWorkLogClassList.forEach(item => {
+          if (item.workTypeId === this.workType.workTypeName) {
+            arr.push(item)
+          }
+        })
+        this.columns = arr
+        if (this.category.workTypeId !== this.workType.workTypeName) {
+          Object.keys(this.category).forEach(k => {
+            this.category[k] = ''
+          })
+        }
       }
       this.showPicker = true
     },
     onConfirmWorkTypeOrCategory (value) {
       if (this.type === 's') {
         this.workType = value
+        if (this.category.workTypeId !== this.workType.workTypeName) {
+          Object.keys(this.category).forEach(k => {
+            this.category[k] = ''
+          })
+        }
       } else {
-        this.category = value
+        this.category = value || this.category
       }
       this.showPicker = false
     },
@@ -288,24 +304,28 @@ export default {
             if (this.projectType === 0) {
               this.userWorkLogTypeList.forEach((item) => {
                 if (item.workTypeId === this.workType.workTypeId) {
-                  this.workType.workTypeName = item.workTypeName
+                  this.workType = item
                 }
               })
               this.userWorkLogClassList.forEach((item) => {
                 if (item.workClassId === this.category.workClassId) {
-                  this.category.workClassName = item.workClassName
+                  this.category = item
                 }
               })
+              if (this.category.workTypeId !== this.workType.workTypeName) {
+                Object.keys(this.category).forEach(k => {
+                  this.category[k] = ''
+                })
+              }
               this.userWorkLogProjectList.forEach((item) => {
                 if (item.projectId === this.project.projectId) {
-                  this.project.projectName = item.projectName
-                  this.project.manageBody = item.manageBody
+                  this.project = item
                 }
               })
             } else {
               this.userWorkLogUnprojectList.forEach((item) => {
                 if (item.unprojectId === this.unProject.unprojectId) {
-                  this.unProject.unprojectName = item.unprojectName
+                  this.unProject = item
                 }
               })
             }

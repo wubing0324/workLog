@@ -1,7 +1,8 @@
 export function getQueryVariable (variable) {
   let urlParam = {}
   if (location.search) {
-    location.search
+    var s = location.search.replace(/\//, '')
+    s
       .substr(1)
       .split('&')
       .forEach((v, k, s) => {

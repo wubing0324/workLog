@@ -16,13 +16,9 @@
     >
     <p class="tmpTitle">选择日志模板</p>
     <div class="btnBox1">
-      <div class="btnTm">
-        <img src="../../assets/01.svg" @click="goTemplate('')" alt="" srcset="">
-        <p>通用模板</p>
-      </div>
-      <div class="btnTm">
-        <img src="../../assets/02.svg" @click="goTemplate('It')" alt="" srcset="">
-        <p>IT模板</p>
+      <div class="btnTm" v-for="item in tmpList" :key="item.templateName">
+        <img :src="'./static/0' + item.type + '.svg'" @click="goTemplate(item.type)" alt="" srcset="">
+        <p>{{item.templateName}}</p>
       </div>
     </div>
     <van-button @click="closeOverly" class="cancleBtn" type="default">取消</van-button>
@@ -33,7 +29,7 @@
 <script>
 import day from 'dayjs'
 import inlineCalendar from './inlineCalendar'
-import { queryUserWorkLogSum, authUserToken } from '../../apis/loglist'
+import { queryUserWorkLogSum, authUserToken, getUserWorkLogTemplateList } from '../../apis/loglist'
 
 export default {
   name: 'logList1',
@@ -43,7 +39,12 @@ export default {
       defaultDate: null,
       maxDate: new Date(day().add(2, 'year')),
       daysMap: {},
-      show: false
+      show: false,
+      tmpList: [],
+      type: {
+        0: '',
+        1: 'It'
+      }
     }
   },
   components: {
@@ -63,11 +64,14 @@ export default {
       this.show = false
     },
     goTemplate (type) {
-      this.$router.push({ name: 'logCreate' + type, params: { defaultDate: new Date() } })
+      this.$router.push({ name: 'logCreate' + this.type[type], params: { defaultDate: new Date() } })
     },
     logCreate () {
-      this.show = true
-      // this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
+      if (this.tmpList.length > 1) {
+        this.show = true
+      } else {
+        this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
+      }
     },
     handelChange (date) {
       let time = day(date).format('YYYY-MM-DD')
@@ -95,6 +99,9 @@ export default {
           startDate: '2020/01/01',
           userCenterId: data.userCenterId
         }
+        getUserWorkLogTemplateList({userCenterId: d.userId}).then((res) => {
+          this.tmpList = res.data
+        })
         queryUserWorkLogSum(p).then((res) => {
           const result = res.data || []
           let daysObj = {}

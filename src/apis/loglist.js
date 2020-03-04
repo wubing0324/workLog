@@ -63,3 +63,11 @@ export function getLastWorkLogIt (data) {
     params: data
   })
 }
+
+export function getUserWorkLogTemplateList (data) {
+  return request({
+    url: '/sys/userworklog/getUserWorkLogTemplateList',
+    method: 'get',
+    params: data
+  })
+}
