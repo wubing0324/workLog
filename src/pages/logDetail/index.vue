@@ -28,7 +28,7 @@
       <p class="tmpTitle">选择日志模板</p>
     <div class="btnBox1">
       <div class="btnTm" v-for="item in tmpList" :key="item.templateName">
-        <img :src="'/static/0' + item.type + '.svg'" @click="goTemplate(item.type)" alt="" srcset="">
+        <img :src="'./static/0' + item.type + '.svg'" @click="goTemplate(item.type)" alt="" srcset="">
         <p>{{item.templateName}}</p>
       </div>
     </div>
