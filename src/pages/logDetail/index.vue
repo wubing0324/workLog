@@ -144,7 +144,7 @@ export default {
       if (this.tmpList.length > 1) {
         this.show = true
       } else {
-        this.$router.push({ name: 'logCreate', params: { defaultDate: this.date } })
+        this.$router.push({ name: 'logCreate' + this.logType[this.tmpList[0].type], params: { defaultDate: this.date } })
       }
     },
     async queryOneDayWorkLogList (data) {

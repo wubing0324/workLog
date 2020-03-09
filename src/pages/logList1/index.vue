@@ -70,7 +70,7 @@ export default {
       if (this.tmpList.length > 1) {
         this.show = true
       } else {
-        this.$router.push({ name: 'logCreate', params: { defaultDate: new Date() } })
+        this.$router.push({ name: 'logCreate' + this.type[this.tmpList[0].type], params: { defaultDate: new Date() } })
       }
     },
     handelChange (date) {

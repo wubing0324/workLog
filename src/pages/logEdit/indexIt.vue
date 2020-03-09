@@ -157,12 +157,12 @@ export default {
         this.valueKey = 'workClassName'
         let arr = []
         this.userWorkLogClassList.forEach(item => {
-          if (item.workTypeId === this.workType.workTypeName) {
+          if (item.workTypeId === this.workType.workTypeId) {
             arr.push(item)
           }
         })
         this.columns = arr
-        if (this.category.workTypeId !== this.workType.workTypeName) {
+        if (this.category.workTypeId !== this.workType.workTypeId) {
           Object.keys(this.category).forEach(k => {
             this.category[k] = ''
           })
@@ -173,7 +173,7 @@ export default {
     onConfirmWorkTypeOrCategory (value) {
       if (this.type === 's') {
         this.workType = value
-        if (this.category.workTypeId !== this.workType.workTypeName) {
+        if (this.category.workTypeId !== this.workType.workTypeId) {
           Object.keys(this.category).forEach(k => {
             this.category[k] = ''
           })
@@ -312,7 +312,7 @@ export default {
                   this.category = item
                 }
               })
-              if (this.category.workTypeId !== this.workType.workTypeName) {
+              if (this.category.workTypeId !== this.workType.workTypeId) {
                 Object.keys(this.category).forEach(k => {
                   this.category[k] = ''
                 })
