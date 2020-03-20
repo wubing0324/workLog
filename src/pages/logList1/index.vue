@@ -5,6 +5,16 @@
         <span v-show="daysMap[slotProps.time.YYYYMMDD] > 0" class="hourTip">{{ daysMap[slotProps.time.YYYYMMDD] }}</span>
       </template>
     </inlineCalendar>
+    <div class="timeBody">
+      <div class="timeList">
+        <div class="timeTitle">本月标准工时</div>
+        <div class="timeNum">{{allWorkHours}}小时</div>
+      </div>
+      <div class="timeList">
+        <div class="timeTitle">已投入工时</div>
+        <div class="timeNum">{{workHours}}小时</div>
+      </div>
+    </div>
     <div class="footer-wrapper">
       <div class="tip">温馨提示：只能修改最近7天的工作日志哦!</div>
       <van-button class="create-button" type="info" @click="logCreate">新建日志</van-button>
@@ -29,12 +39,14 @@
 <script>
 import day from 'dayjs'
 import inlineCalendar from './inlineCalendar'
-import { queryUserWorkLogSum, authUserToken, getUserWorkLogTemplateList } from '../../apis/loglist'
+import { queryUserWorkLogSum, authUserToken, getUserWorkLogTemplateList, queryUserMonthWorkTime } from '../../apis/loglist'
 
 export default {
   name: 'logList1',
   data () {
     return {
+      allWorkHours: 0,
+      workHours: 0,
       minDate: new Date(2020, 0, 1),
       defaultDate: null,
       maxDate: new Date(day().add(2, 'year')),
@@ -52,6 +64,9 @@ export default {
   },
   created () {
     this.defaultDate = this.$route.params.defaultDate || new Date()
+    window.C3.ready(function () {
+      window.C3.rightNavKeyItem({})
+    })
   },
   mounted () {
     this.getDays()
@@ -69,6 +84,8 @@ export default {
     logCreate () {
       if (this.tmpList.length > 1) {
         this.show = true
+      } else if (this.tmpList.length === 0) {
+        this.$toast('暂无权限，请联系管理员开通')
       } else {
         this.$router.push({ name: 'logCreate' + this.type[this.tmpList[0].type], params: { defaultDate: new Date() } })
       }
@@ -109,6 +126,23 @@ export default {
             daysObj[item.workDate] = item.workUseTime
           })
           this.daysMap = daysObj
+        })
+        var Time = new Date()
+        var year = Time.getFullYear()
+        var month = Time.getMonth() + 1
+        let params = {
+          searchDate: year + '-' + month,
+          userCenterId: d.userId
+        }
+        queryUserMonthWorkTime(params).then(res => {
+          if (res.code === 'success') {
+            this.allWorkHours = res.data.normalWorkTime
+            if (res.data.workTime === null) {
+              this.workHours = 0
+            } else {
+              this.workHours = res.data.workTime
+            }
+          }
         })
       })
     }
@@ -170,7 +204,28 @@ export default {
     color: #fff;
     font-size: .12rem;
   }
-
+  .timeBody{
+    width:92%;
+    margin:0 auto;
+    font-size:16px;
+    border-top:1px solid #E5E5E5;
+    border-bottom:1px solid #E5E5E5;
+    .timeList{
+      height:44px;
+      line-height: 44px;
+      display:flex;
+      .timeTitle{
+        flex: 1;
+        text-align: left;
+        color: #191919;
+      }
+      .timeNum{
+        flex: 1;
+        text-align: right;
+        color:#666666
+      }
+    }
+  }
   .van-calendar__header-title {
     display: none;
   }

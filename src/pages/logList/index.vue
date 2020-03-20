@@ -86,6 +86,9 @@ export default {
   },
   created () {
     this.defaultDate = this.$route.params.defaultDate || new Date()
+    window.C3.ready(function () {
+      window.C3.rightNavKeyItem({})
+    })
   },
   mounted () {
     this.getDays()

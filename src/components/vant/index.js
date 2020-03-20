@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Picker, Button, Calendar, Cell, CellGroup, Field, Loading, Notify, Popup, Tab, Tabs } from 'vant'
+import { Picker, Button, Calendar, Cell, CellGroup, Field, Loading, Notify, Popup, Tab, Tabs, Toast, Search, Dialog } from 'vant'
 
 Vue.use(CellGroup)
 Vue.use(Button)
@@ -12,3 +12,6 @@ Vue.use(Popup)
 Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Picker)
+Vue.use(Toast)
+Vue.use(Search)
+Vue.use(Dialog)

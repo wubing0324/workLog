@@ -1,6 +1,6 @@
 <template>
   <div class="logEdit">
-    <van-cell title="日期" :value="formatDate" title-style="text-align: left;" :border="false" />
+    <van-cell title="日期" :value="formatDate" title-style="text-align: left;" @click="show = true" is-link :border="false" />
 
     <van-field
       v-model="content"
@@ -22,6 +22,7 @@
       :border="false"
     />
     <van-button class="btn" type="info" block :loading="loading" loading-text="保存中..." @click="saveOrUpdateUserWorkLog">修改并保存</van-button>
+    <van-calendar v-model="show" color="#2288EE" :default-date="workDate" :show-confirm="false" @confirm="onConfirm" :min-date="minDate" :max-date="maxDate" />
   </div>
 </template>
 
@@ -38,7 +39,19 @@ export default {
       content: '',
       workDate: '',
       formatDate: '',
-      loading: false
+      loading: false,
+      minDate: '',
+      maxDate: '',
+      show: false,
+      week: {
+        0: '周日',
+        1: '周一',
+        2: '周二',
+        3: '周三',
+        4: '周四',
+        5: '周五',
+        6: '周六'
+      }
     }
   },
   created () {
@@ -50,10 +63,28 @@ export default {
     this.content = info.content
     this.uuid = info.uuid
     this.formatDate = formatDate
+    this.minDate = new Date(day().subtract(6, 'day'))
+    this.maxDate = new Date(day().add(1, 'year'))
     let info1 = localStorage.getItem('info') || {}
     this.info = JSON.parse(info1)
+    window.C3.ready(function () {
+      window.C3.rightNavKeyItem({})
+    })
   },
   methods: {
+    onConfirm (date) {
+      this.show = false
+      this.workDate = date
+      console.log(date)
+      this.formatDate = this.formatterDate(date)
+    },
+    formatterDate (workDate) {
+      let month = workDate.getMonth() + 1
+      month = month > 9 ? month : '0' + month
+      let day = workDate.getDate()
+      day = day > 9 ? day : '0' + day
+      return `${month}月${day}日 ${this.week[workDate.getDay()]}`
+    },
     formatter (value) {
       // 过滤输入的数字
       let arr = []
@@ -135,6 +166,11 @@ export default {
   }
   .titleStyle, .van-cell__title{
     text-align: left;
+  }
+  .van-popup{
+    .van-icon-cross{
+      display:none;
+    }
   }
   .van-icon-arrow::before {
       margin-top: 4px;

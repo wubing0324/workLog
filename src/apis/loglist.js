@@ -71,3 +71,21 @@ export function getUserWorkLogTemplateList (data) {
     params: data
   })
 }
+
+// 查询某年某月的工作时长、标准时长
+export function queryUserMonthWorkTime (data) {
+  return request({
+    url: '/sys/userworklog/queryUserMonthWorkTime',
+    method: 'post',
+    data
+  })
+}
+
+// 删除日志
+export function deleteUserWorkLog (data) {
+  return request({
+    url: '/sys/userworklog/deleteUserWorkLog',
+    method: 'get',
+    params: data
+  })
+}

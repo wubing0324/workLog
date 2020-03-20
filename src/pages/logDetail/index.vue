@@ -12,11 +12,26 @@
     </div>
     <ul v-else class="dataBox">
       <li v-for="(item, index) in logData" :key="index" @click="goLogEditOrView(item)">
-        <p class="title"><span>工作时间：</span><span>{{ item.workUseTime }}小时</span>
+        <p class="title">
+          <span v-if="item.logType === '0'">通用</span>
+          <span v-if="item.logType === '1' && item.projectType === '0'">项目</span>
+          <span v-if="item.logType === '1' && item.projectType === '1'">非项目</span>
+          <van-button v-show="isEditable" @click.stop="deleteDetail(item)" class="editBtn" type="default">删除</van-button>
           <van-button v-show="isEditable" class="editBtn" type="default">修改</van-button>
           <van-button v-show="!isEditable" class="editBtn" type="default">查看</van-button>
         </p>
-        <p class="content">工作内容：{{ item.content }}</p>
+        <p class="content">
+          <span class="titleList">工作时间：</span>{{ item.workUseTime }}
+        </p>
+        <p v-if="item.workTypeName !== null" class="content">
+          <span class="titleList">工作类型：</span>{{ item.workTypeName }}
+        </p>
+        <p v-if="item.workClassName !== null" class="content">
+          <span class="titleList">工作类别：</span>{{ item.workClassName }}
+        </p>
+        <p class="content">
+          <span class="titleList">工作内容：</span>{{ item.content }}
+        </p>
       </li>
     </ul>
     <van-button class="btn" v-show="isEditable" type="info" block @click="logCreate">新建日志</van-button>
@@ -39,7 +54,7 @@
 
 <script>
 import day from 'dayjs'
-import { queryOneDayWorkLogList, getUserWorkLogTemplateList } from '../../apis/loglist.js'
+import { queryOneDayWorkLogList, getUserWorkLogTemplateList, deleteUserWorkLog } from '../../apis/loglist.js'
 
 function debounce (handle, duration) {
   duration = duration || 500
@@ -110,8 +125,39 @@ export default {
       this.tmpList = res.data
     })
     this.getData(this.filter)
+    let that = this
+    window.C3.ready(function () {
+      window.C3.rightNavKeyItem({
+        type: 30000, // 单纯的按钮
+        text: '日历',
+        onClick: function () {
+          that.$router.push({ name: 'logList' })
+        }
+      })
+    })
   },
   methods: {
+    deleteDetail (item) {
+      let data = {
+        uuid: item.uuid
+      }
+      this.$dialog.alert({
+        title: '提示',
+        message: '此操作会删除该条日志内容，确认删除吗？',
+        showCancelButton: true
+      }).then(() => {
+        deleteUserWorkLog(data).then(res => {
+          if (res.code === 'success') {
+            this.$toast.success('删除成功')
+            this.getData(this.filter)
+          } else {
+            this.$toast.fail('删除成功')
+          }
+        })
+      }).catch(() => {
+        // on cancel
+      })
+    },
     closeOverly () {
       this.show = false
     },
@@ -151,7 +197,11 @@ export default {
       this.loading = true
       let res = await queryOneDayWorkLogList(data)
       localStorage.setItem('detailTime', JSON.stringify(data.searchDate))
-      this.logData = res.data
+      if (res.data === null) {
+        this.logData = []
+      } else {
+        this.logData = res.data
+      }
       this.loading = false
     }
   }
@@ -214,10 +264,9 @@ export default {
     li{
       box-sizing: border-box;
       width: 3.43rem;
-      height: .98rem;
       background: #F2F3F5;
       border-radius: 3px;
-      padding: 0 16px;
+      padding: 16px;
       margin-bottom: 10px;
       overflow: hidden;
       &:hover, &:active{
@@ -232,7 +281,6 @@ export default {
           height: .22rem;
           font-size: .16rem;
           color: #191919;
-          margin: .16rem 0 0.08rem 0;
           .editBtn{
             font-size: .14rem;
             color: #2288EE;
@@ -247,10 +295,14 @@ export default {
           color: #666666;
           text-align: left;
           line-height: .18rem;
+          margin-top: 0.08rem;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          .titleList{
+            color: #191919
+          }
         }
       }
     }

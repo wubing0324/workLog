@@ -5,7 +5,6 @@
         <van-cell title="日期" :value="formatDate" title-style="text-align: left;" @click="show = true" is-link />
         <van-cell title="项目" :value="project.projectName" title-style="text-align: left;" @click="toProject" is-link />
         <van-field v-model="project.manageBody" readonly label="经营体" />
-
         <van-field
           readonly
           clickable
@@ -148,6 +147,9 @@ export default {
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
     this.always = localStorage.getItem('always') ? JSON.parse(localStorage.getItem('always')) : []
+    window.C3.ready(function () {
+      window.C3.rightNavKeyItem({})
+    })
   },
   methods: {
     selectTag (unproject) {
@@ -357,7 +359,7 @@ export default {
 .logCreate{
   height: 100vh;
   background: #f2f3f5;
-  overflow: hidden;
+  overflow: auto;
   .tagsBox{
     height: 1.90rem;
     width: 100%;

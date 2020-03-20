@@ -77,6 +77,9 @@ export default {
     }
     let info = localStorage.getItem('info') || {}
     this.info = JSON.parse(info)
+    window.C3.ready(function () {
+      window.C3.rightNavKeyItem({})
+    })
   },
   methods: {
     onConfirm (date) {
@@ -151,11 +154,16 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .logCreate{
   height: 100vh;
   background: #f2f3f5;
   overflow: hidden;
+  .van-popup{
+    .van-icon-cross{
+      display:none;
+    }
+  }
   .van-popup{
     .van-icon-cross{
       display:none;
